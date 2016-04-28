@@ -6,3 +6,11 @@
 .DS_Store
 /build
 /captures
+
+.idea/misc.xml
+
+.idea/.name
+
+.idea/compiler.xml
+
+.idea/misc.xml

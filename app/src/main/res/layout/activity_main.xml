@@ -10,11 +10,19 @@
     android:orientation="vertical"
     tools:context="com.minkim.traveldiary.MainActivity">
 
+    <TextView
+        android:text="Travel Diary"
+        android:textSize="45sp"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/image"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"/>
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:src="@drawable/worldmap"/>
 
     <Button
         android:id="@+id/traveled"

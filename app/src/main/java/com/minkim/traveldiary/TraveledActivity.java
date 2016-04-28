@@ -12,7 +12,7 @@ public class TraveledActivity extends AppCompatActivity {
 
     ListView list;
     CheckBoxAdapter adapter;
-    Button add, delete, edit, done;
+    Button add, delete, edit, view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +25,7 @@ public class TraveledActivity extends AppCompatActivity {
         add     = (Button) findViewById(R.id.add);
         delete  = (Button) findViewById(R.id.delete);
         edit    = (Button) findViewById(R.id.edit);
-        done    = (Button) findViewById(R.id.done);
+        view    = (Button) findViewById(R.id.view);
 
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle myBundle = new Bundle();
-                intent.putExtras(myBundle);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        });
     }
 }

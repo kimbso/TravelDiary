@@ -54,7 +54,7 @@ public class TraveledActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String apiKey = "AIzaSyCMWujTZzTbnI7g-TzQmEUiizMSncHPbkM";
+            String apiKey = "2750154b0aedca0e905ce64b48eef64f34722286";
             String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
                     + "&types=(cities)&key=" + apiKey;
             try {

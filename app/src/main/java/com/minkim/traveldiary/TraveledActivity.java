@@ -121,5 +121,9 @@ public class TraveledActivity extends FragmentActivity
 
             return null;
         }
+
+        protected void onPostExecute(String result){
+            progressDialog.dismiss();
+        }
     }
 }

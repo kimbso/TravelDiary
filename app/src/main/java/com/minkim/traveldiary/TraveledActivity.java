@@ -98,7 +98,7 @@ public class TraveledActivity extends FragmentActivity
         @Override
         protected String doInBackground(String... params) {
             String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
-            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
+            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
                     + "&types=(cities)&key=" + apiKey;
             Log.i("URL", jsonUrl);
             try {

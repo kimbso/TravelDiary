@@ -94,12 +94,12 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
     public void delete(){
         ArrayList<Location> rem = new ArrayList<Location>();
-        for (int i = 0; i < locations.size(); i++) {
-            //if (locations.get(i).isSelected())
-            //    rem.add(t);
+        for (Location t : locations) {
+            if (t.isSelected())
+                rem.add(t);
         }
         for (Location a : rem)
-            locations.remove(a);
+            tasks.remove(a);
         adapter.notifyDataSetChanged();
     }
 

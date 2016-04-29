@@ -49,6 +49,11 @@ public class MainActivity extends Activity {
             if (requestCode == 100){
             }
             else if (requestCode == 200){
+                Bundle futureData = data.getExtras();
+                String task = futureData.getString("task");
+                if (task.equals("move")){
+
+                }
             }
             else if (requestCode == 300){
             }

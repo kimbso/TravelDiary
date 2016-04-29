@@ -41,6 +41,18 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 Bundle myBundle = new Bundle();
+                myBundle.putString("task", "back");
+                intent.putExtras(myBundle);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle myBundle = new Bundle();
+                myBundle.putString("task", "move");
                 intent.putExtras(myBundle);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
@@ -83,8 +95,8 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
                 view();
                 break;
         }
-        //for (Task i : tasks)
-        //    i.setSelected(false);
+        for (Location i : locations)
+            i.setSelected(false);
     }
 
     public void move() {

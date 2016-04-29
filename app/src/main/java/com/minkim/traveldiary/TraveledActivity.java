@@ -93,6 +93,9 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     }
 
     public void deleteClick(){
+        for (Location t: locationArrayList){
+            Log.i("city", t.getCity().getCity());
+        }
 
     }
 

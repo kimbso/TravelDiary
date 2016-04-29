@@ -121,11 +121,13 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
                 Log.i("new Location", myBundle.toString());
-//                newLocation     = (Location) myBundle.getSerializable("Location");
                 Location temp   = (Location) myBundle.get("Location");
-                City newCity    = temp.getCity();
-                String cityName = newCity.getCity();
+
+                String description = temp.getDescription();
+                String cityName = temp.getCity().getCity();
+            
                 Log.i("City from add", cityName);
+                Log.i("Description from add", description);
             }
         }
         catch (Exception e){

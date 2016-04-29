@@ -33,9 +33,10 @@ import java.util.ArrayList;
  * Created by roseanna on 4/28/16.
  */
 public class AddTraveledActivity extends Activity implements View.OnClickListener{
-    EditText cityText, countryText, favoritePlaces, description;
+    EditText cityText, countryText, favoritePlaces, descriptionT;
     Button done, dates, addPictures;
     public Location newLocation;
+    public City newCity;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         cityText        = (EditText) findViewById(R.id.cityText);
         countryText     = (EditText) findViewById(R.id.countryText);
         favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
-        description     = (EditText) findViewById(R.id.description);
+        descriptionT    = (EditText) findViewById(R.id.description);
         done            = (Button) findViewById(R.id.done);
         dates           = (Button) findViewById(R.id.dates);
         addPictures     = (Button) findViewById(R.id.pictures);
@@ -81,11 +82,18 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         cs.execute(city);
     }
 
-
+    public void populateLocation(){
+        String description = descriptionT.getText().toString();
+        ArrayList<String> favPlaces = new ArrayList<>();
+        favPlaces.add(favoritePlaces.getText().toString());
+        ArrayList<String> picArray = new ArrayList<>();
+        newLocation = new Location(newCity, description, favPlaces, picArray);
+    }
     public void putLocation(){
+        populateLocation();
+        Log.i("populate", newLocation.getCity().getCity());
         final Intent myIntent = getIntent();
         Bundle myBundle = new Bundle();
-        Log.i("put", newLocation.getCity().getCity());
         myBundle.putSerializable("Location", newLocation);
         myIntent.putExtras(myBundle);
         setResult(Activity.RESULT_OK, myIntent);
@@ -129,8 +137,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
                 JSONArray prediction    = jObject.getJSONArray("predictions");
                 Log.i("Array info", prediction.toString());
 
-                City newCity = new City(params[0], "Country");
-                newLocation = new Location(newCity, null, null, null);
+                newCity = new City(params[0], "Country");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

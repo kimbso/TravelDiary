@@ -21,6 +21,15 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 public class TraveledActivity extends FragmentActivity
         implements GoogleApiClient.OnConnectionFailedListener {
@@ -45,6 +54,8 @@ public class TraveledActivity extends FragmentActivity
         edit    = (Button) findViewById(R.id.edit);
         view    = (Button) findViewById(R.id.view);
 
+        CityScrape cs = new CityScrape();
+        cs.execute("Boston");
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -86,27 +97,26 @@ public class TraveledActivity extends FragmentActivity
 
         @Override
         protected String doInBackground(String... params) {
-//            String apiKey = "2750154b0aedca0e905ce64b48eef64f34722286";
-//            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
-//                    + "&types=(cities)&key=" + apiKey;
-//
-//            try {
-//                URL url = new URL(jsonUrl);
-//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-//
-//                String line;
-//                while ((line = reader.readLine()) != null){
-//                    result.append(line);
-//                    Log.i("result", line);
-//                }
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
+            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
+                    + "&types=cities&key=" + apiKey;
+            try {
+                URL url = new URL(jsonUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null){
+                    result.append(line);
+                    Log.i("result", line);
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }

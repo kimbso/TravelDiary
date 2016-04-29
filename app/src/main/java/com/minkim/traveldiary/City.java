@@ -1,9 +1,11 @@
 package com.minkim.traveldiary;
 
+import java.io.Serializable;
+
 /**
  * Created by roseanna on 4/29/16.
  */
-public class City {
+public class City implements Serializable{
     private String city;
     private String country;
 

@@ -115,8 +115,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             // Adding location
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
-                newLocation = (Location) myBundle.get("Location");
-                Log.i("City from add", newLocation.getCity().getCity());
+                Log.i("new Location", myBundle.toString());
+//                newLocation     = (Location) myBundle.getSerializable("Location");
+                Location temp   = (Location) myBundle.get("Location");
+                City newCity    = temp.getCity();
+                String cityName = newCity.getCity();
+                Log.i("City from add", cityName);
             }
         }
         catch (Exception e){

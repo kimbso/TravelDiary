@@ -72,7 +72,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
     }
 
     // Get location information
-    public void scrapeInfo(){
+    public void doneClick(){
         String city     = cityText.getText().toString();
         Log.i("City", city);
         String country  = countryText.getText().toString();
@@ -81,12 +81,12 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         cs.execute(city);
     }
 
-    public void doneClick(){
-        scrapeInfo();
 
+    public void putLocation(){
         final Intent myIntent = getIntent();
         Bundle myBundle = new Bundle();
-        myBundle.putParcelable("Location", (Parcelable) newLocation);
+        Log.i("put", newLocation.getCity().getCity());
+        myBundle.putSerializable("Location", newLocation);
         myIntent.putExtras(myBundle);
         setResult(Activity.RESULT_OK, myIntent);
         finish();
@@ -145,7 +145,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
 
         protected void onPostExecute(String result){
             progressDialog.dismiss();
-
+            putLocation();
         }
     }
 }

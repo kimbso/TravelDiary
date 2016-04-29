@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -36,16 +37,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class TraveledActivity extends FragmentActivity
-        implements GoogleApiClient.OnConnectionFailedListener {
+public class TraveledActivity extends Activity implements View.OnClickListener {
 
-    private static final int PLACE_PICKER_REQUEST = 1;
     ListView list;
     CheckBoxAdapter adapter;
     Button add, delete, edit, view;
     ArrayList<Location> locationArrayList;
-
-    private GoogleApiClient mGoogleApiClient;
+    Location newLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,76 +58,67 @@ public class TraveledActivity extends FragmentActivity
         edit    = (Button) findViewById(R.id.edit);
         view    = (Button) findViewById(R.id.view);
 
-        CityScrape cs = new CityScrape();
-        cs.execute("Boston");
-
+        add.setOnClickListener(this);
+        delete.setOnClickListener(this);
+        edit.setOnClickListener(this);
+        view.setOnClickListener(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if( mGoogleApiClient != null )
-            mGoogleApiClient.connect();
-    }
 
     @Override
-    protected void onStop() {
-        if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
-            mGoogleApiClient.disconnect();
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add:
+                addClick();
+                break;
+            case R.id.delete:
+                deleteClick();
+                break;
+            case R.id.edit:
+                editClick();
+                break;
+            case R.id.view:
+                viewClick();
+                break;
+            default:
+                Log.i("ONCLICK", "DEFAULT");
+                break;
         }
-        super.onStop();
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void addClick(){
+        Intent intent = new Intent(TraveledActivity.this, AddTraveledActivity.class);
+        startActivityForResult(intent, 100);
+    }
+
+    public void deleteClick(){
 
     }
 
-    private class CityScrape extends AsyncTask<String, String, String>{
-        private ProgressDialog progressDialog = new ProgressDialog(TraveledActivity.this);
-        StringBuilder result = new StringBuilder();
+    public void editClick(){
 
-        protected void onPreExecute() {
-            progressDialog.setMessage("Downloading your data...");
-            progressDialog.show();
-        }
+    }
 
-        @Override
-        protected String doInBackground(String... params) {
-            String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
-            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
-                    + "&types=(cities)&key=" + apiKey;
-            Log.i("URL", jsonUrl);
-            try {
-                URL url = new URL(jsonUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    public void viewClick(){
 
-                String line;
-                while ((line = reader.readLine()) != null){
-                    result.append(line);
-                }
-                JSONObject jObject      = new JSONObject(result.toString());
-                JSONObject cityInfo     = jObject.getJSONObject("city");
-                JSONArray jArray = jObject.getJSONArray("list");
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject singleDay = jArray.getJSONObject(i);
-                }
+    }
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+    public void onResume(){
+        super.onResume();
+        locationArrayList.add(newLocation);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // Adding location
+            if (requestCode == 100){
+                Bundle myBundle = data.getExtras();
+                newLocation = myBundle.getParcelable("Location");
             }
-
-            return null;
         }
-
-        protected void onPostExecute(String result){
-            progressDialog.dismiss();
+        catch (Exception e){
+            Log.i("ERROR..","onActivityResult");
         }
     }
+
 }

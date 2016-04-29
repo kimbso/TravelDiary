@@ -99,7 +99,8 @@ public class TraveledActivity extends FragmentActivity
         protected String doInBackground(String... params) {
             String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
             String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
-                    + "&types=cities&key=" + apiKey;
+                    + "&types=(cities)&key=" + apiKey;
+            Log.i("URL", jsonUrl);
             try {
                 URL url = new URL(jsonUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

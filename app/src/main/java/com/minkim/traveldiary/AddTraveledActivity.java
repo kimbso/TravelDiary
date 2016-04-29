@@ -5,9 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -19,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,29 +32,74 @@ import java.util.ArrayList;
 /**
  * Created by roseanna on 4/28/16.
  */
-public class AddTraveledActivity extends Activity {
-    ListView list;
-    
-    CheckBoxAdapter adapter;
-    Button add, delete, edit, view;
-    ArrayList<Location> locationArrayList;
+public class AddTraveledActivity extends Activity implements View.OnClickListener{
+    EditText cityText, countryText, favoritePlaces, description;
+    Button done, dates, addPictures;
+    public Location newLocation;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traveled);
+        setContentView(R.layout.activity_add_traveled);
 
-        final Intent intent = getIntent();
+        cityText        = (EditText) findViewById(R.id.cityText);
+        countryText     = (EditText) findViewById(R.id.countryText);
+        favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
+        description     = (EditText) findViewById(R.id.description);
+        done            = (Button) findViewById(R.id.done);
+        dates           = (Button) findViewById(R.id.dates);
+        addPictures     = (Button) findViewById(R.id.pictures);
 
-        list    = (ListView) findViewById(R.id.list);
-        add     = (Button) findViewById(R.id.add);
-        delete  = (Button) findViewById(R.id.delete);
-        edit    = (Button) findViewById(R.id.edit);
-        view    = (Button) findViewById(R.id.view);
+        done.setOnClickListener(this);
+        dates.setOnClickListener(this);
+        addPictures.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.done:
+                doneClick();
+                break;
+            case R.id.dates:
+                dateClick();
+                break;
+            case R.id.pictures:
+                pictureClick();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Get location information
+    public void scrapeInfo(){
+        String city     = cityText.getText().toString();
+        Log.i("City", city);
+        String country  = countryText.getText().toString();
 
         CityScrape cs = new CityScrape();
-        cs.execute("Boston");
+        cs.execute(city);
+    }
+
+    public void doneClick(){
+        scrapeInfo();
+
+        final Intent myIntent = getIntent();
+        Bundle myBundle = new Bundle();
+        myBundle.putParcelable("Location", (Parcelable) newLocation);
+        myIntent.putExtras(myBundle);
+        setResult(Activity.RESULT_OK, myIntent);
+        finish();
+    }
+
+    public void dateClick(){
 
     }
+
+    public void pictureClick(){
+
+    }
+
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(AddTraveledActivity.this);
         StringBuilder result = new StringBuilder();
@@ -76,12 +126,11 @@ public class AddTraveledActivity extends Activity {
                     result.append(line);
                 }
                 JSONObject jObject      = new JSONObject(result.toString());
-                JSONObject cityInfo     = jObject.getJSONObject("predictions");
                 JSONArray prediction    = jObject.getJSONArray("predictions");
-
-                Log.i("City info", cityInfo.toString());
                 Log.i("Array info", prediction.toString());
 
+                City newCity = new City(params[0], "Country");
+                newLocation = new Location(newCity, null, null, null);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -96,6 +145,7 @@ public class AddTraveledActivity extends Activity {
 
         protected void onPostExecute(String result){
             progressDialog.dismiss();
+
         }
     }
 }

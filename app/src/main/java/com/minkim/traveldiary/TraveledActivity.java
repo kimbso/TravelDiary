@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -105,15 +106,17 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
 
     public void onResume(){
         super.onResume();
-        locationArrayList.add(newLocation);
     }
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         try {
             // Adding location
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
-                newLocation = myBundle.getParcelable("Location");
+                newLocation = (Location) myBundle.get("Location");
+                Log.i("City from add", newLocation.getCity().getCity());
             }
         }
         catch (Exception e){

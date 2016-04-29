@@ -38,6 +38,8 @@
         <activity android:name=".FutureActivity" />
         <activity android:name=".DiscoverActivity" />
         <activity android:name=".WeatherActivity"></activity>
+        <activity android:name=".AddTraveledActivity"/>
+
     </application>
 
 </manifest>

@@ -10,18 +10,24 @@
     android:orientation="vertical"
     tools:context="com.minkim.traveldiary.FutureActivity">
 
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="FUTURE"
-        android:textSize="45sp"
+        android:textSize="30sp"
         android:gravity="center"
         android:textColor="#000000"/>
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="315dp"></ListView>
+        android:layout_height="300dp"></ListView>
 
     <Button
         android:id="@+id/move"
@@ -54,10 +60,10 @@
             android:text="Edit"/>
 
         <Button
-            android:id="@+id/done"
+            android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Done"/>
+            android:text="View"/>
     </LinearLayout>
 
 </LinearLayout>

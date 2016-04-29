@@ -12,7 +12,7 @@ public class FutureActivity extends AppCompatActivity {
 
     ListView list;
     CheckBoxAdapter adapter;
-    Button move, add, delete, edit, done;
+    Button move, add, delete, edit, view, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,10 @@ public class FutureActivity extends AppCompatActivity {
         add     = (Button) findViewById(R.id.add);
         delete  = (Button) findViewById(R.id.delete);
         edit    = (Button) findViewById(R.id.edit);
-        done    = (Button) findViewById(R.id.done);
+        view    = (Button) findViewById(R.id.view);
+        back    = (Button) findViewById(R.id.back);
 
-        done.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle myBundle = new Bundle();

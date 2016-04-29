@@ -53,13 +53,6 @@
         android:paddingTop="10dp"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Basic Information:"
-        android:textColor="#000000"
-        android:textSize="15sp"/>
-
-    <TextView
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="200dp" />

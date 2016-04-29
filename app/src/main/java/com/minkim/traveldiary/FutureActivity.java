@@ -18,7 +18,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     Button move, add, delete, edit, view, back;
 
     // For testing purposes
-    ArrayList locations = new ArrayList<Location>();
+    ArrayList<Location> locations = new ArrayList<Location>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        locations = new ArrayList();
         // for testing purposes
         City city1 = new City("Rome", "Italy");
         City city2 = new City("Boston", "USA");
@@ -99,7 +100,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
                 rem.add(t);
         }
         for (Location a : rem)
-            tasks.remove(a);
+            locations.remove(a);
         adapter.notifyDataSetChanged();
     }
 

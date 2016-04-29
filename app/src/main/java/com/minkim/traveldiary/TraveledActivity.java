@@ -63,6 +63,8 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         delete.setOnClickListener(this);
         edit.setOnClickListener(this);
         view.setOnClickListener(this);
+
+        locationArrayList = new ArrayList<>();
     }
 
 

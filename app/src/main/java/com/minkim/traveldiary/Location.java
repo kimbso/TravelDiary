@@ -1,11 +1,12 @@
 package com.minkim.traveldiary;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by roseanna on 4/29/16.
  */
-public class Location {
+public class Location implements Serializable{
     public City city;
     public String description;
     public ArrayList<String> favoritePlaces;

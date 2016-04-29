@@ -1,5 +1,5 @@
 package com.minkim.traveldiary;
-// see assignment 2a
+// see assignment 3a for reference
 
 import android.content.Context;
 import android.view.*;
@@ -28,13 +28,10 @@ public class CheckBoxAdapter extends ArrayAdapter {
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checked = ((CheckBox) v).isChecked();
-                if (checked){
-                    cb.setChecked(false);
-                }
-                else {
-                    cb.setChecked(true);
-                }
+                if (cb.isChecked())
+                    locations.get(position).setSelected(true);
+                else if (!cb.isChecked())
+                    locations.get(position).setSelected(false);
             }
         });
         return rowView;

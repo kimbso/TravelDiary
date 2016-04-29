@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.io.*;
 import java.util.*;
 
-public class FutureActivity extends AppCompatActivity {
+public class FutureActivity extends AppCompatActivity implements View.OnClickListener, Serializable {
 
     ListView list;
     CheckBoxAdapter adapter;
@@ -33,17 +35,7 @@ public class FutureActivity extends AppCompatActivity {
         view    = (Button) findViewById(R.id.view);
         back    = (Button) findViewById(R.id.back);
 
-        move.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle myBundle = new Bundle();
-                intent.putExtras(myBundle);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-
-
-            }
-        });
+        setOnClickListeners();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,5 +61,58 @@ public class FutureActivity extends AppCompatActivity {
 
         adapter = new CheckBoxAdapter(this, locations);
         list.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.move:
+                move();
+                break;
+            case R.id.add:
+                add();
+                break;
+            case R.id.delete:
+                delete();
+                break;
+            case R.id.edit:
+                edit();
+                break;
+            case R.id.view:
+                view();
+                break;
+        }
+        //for (Task i : tasks)
+        //    i.setSelected(false);
+    }
+
+    public void move() {
+    }
+
+    public void add() {
+    }
+
+    public void delete(){
+        ArrayList<Location> rem = new ArrayList<Location>();
+        for (int i = 0; i < locations.size(); i++) {
+            //if (locations.get(i).isSelected())
+            //    rem.add(t);
+        }
+        for (Location a : rem)
+            locations.remove(a);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void edit(){}
+
+    public void view(){}
+
+    public void setOnClickListeners() {
+        move.setOnClickListener(this);
+        add.setOnClickListener(this);
+        delete.setOnClickListener(this);
+        edit.setOnClickListener(this);
+        view.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 }

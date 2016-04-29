@@ -7,73 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.minkim.traveldiary.DiscoverActivity">
+    android:orientation="vertical">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="2"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:background="@drawable/customborder">
-
-        <TextView
-            android:text="City:"
-            android:textColor="#000000"
-            android:textSize="15sp"/>
-        <TextView
-            android:text="Country:   "
-            android:textColor="#000000"
-            android:textSize="15sp"/>
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="165dp"/>
-        <EditText
-            android:id="@+id/country"
-            android:layout_width="165dp"/>
-        <Button
-            android:id="@+id/search"
-            android:text="Search"
-            android:layout_rowSpan="2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
-
-    </GridLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Description:"
-        android:textColor="#000000"
-        android:textSize="15sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="100dp" />
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/customborder">
-
-        <Button
-            android:id="@+id/weather"
-            android:text="Add Pictures"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/plane"
-            android:text="Map View"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
 
 </LinearLayout>

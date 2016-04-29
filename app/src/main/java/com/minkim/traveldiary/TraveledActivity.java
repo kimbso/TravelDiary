@@ -21,6 +21,10 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -112,10 +116,18 @@ public class TraveledActivity extends FragmentActivity
                     result.append(line);
                     Log.i("result", line);
                 }
+                JSONObject jObject      = new JSONObject(result.toString());
+                JSONObject cityInfo     = jObject.getJSONObject("city");
+                JSONArray jArray = jObject.getJSONArray("list");
+                for (int i = 0; i < jArray.length(); i++) {
+                    JSONObject singleDay = jArray.getJSONObject(i);
+                }
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 

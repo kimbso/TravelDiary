@@ -39,9 +39,9 @@ public class TraveledActivity extends AppCompatActivity {
         delete  = (Button) findViewById(R.id.delete);
         edit    = (Button) findViewById(R.id.edit);
         view    = (Button) findViewById(R.id.view);
-        CityScrape cs = new CityScrape();
-        String testCity = "Boston";
-        cs.execute(testCity);
+//        CityScrape cs = new CityScrape();
+//        String testCity = "Boston";
+//        cs.execute(testCity);
     }
     private class CityScrape extends AsyncTask<String, String, String>{
         private ProgressDialog progressDialog = new ProgressDialog(TraveledActivity.this);
@@ -54,26 +54,27 @@ public class TraveledActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String apiKey = "2750154b0aedca0e905ce64b48eef64f34722286";
-            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
-                    + "&types=(cities)&key=" + apiKey;
-            try {
-                URL url = new URL(jsonUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String line;
-                while ((line = reader.readLine()) != null){
-                    result.append(line);
-                    Log.i("result", line);
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            String apiKey = "2750154b0aedca0e905ce64b48eef64f34722286";
+//            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+ params[0]
+//                    + "&types=(cities)&key=" + apiKey;
+//
+//            try {
+//                URL url = new URL(jsonUrl);
+//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+//
+//                String line;
+//                while ((line = reader.readLine()) != null){
+//                    result.append(line);
+//                    Log.i("result", line);
+//                }
+//
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             return null;
         }

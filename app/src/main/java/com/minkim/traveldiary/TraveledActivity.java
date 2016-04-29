@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class TraveledActivity extends FragmentActivity
@@ -42,6 +43,7 @@ public class TraveledActivity extends FragmentActivity
     ListView list;
     CheckBoxAdapter adapter;
     Button add, delete, edit, view;
+    ArrayList<Location> locationArrayList;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -60,13 +62,6 @@ public class TraveledActivity extends FragmentActivity
 
         CityScrape cs = new CityScrape();
         cs.execute("Boston");
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, this)
-                .build();
-        mGoogleApiClient.connect();
 
     }
 
@@ -114,7 +109,6 @@ public class TraveledActivity extends FragmentActivity
                 String line;
                 while ((line = reader.readLine()) != null){
                     result.append(line);
-                    Log.i("result", line);
                 }
                 JSONObject jObject      = new JSONObject(result.toString());
                 JSONObject cityInfo     = jObject.getJSONObject("city");

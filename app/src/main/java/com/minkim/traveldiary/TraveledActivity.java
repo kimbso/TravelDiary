@@ -18,6 +18,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
@@ -42,7 +43,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
 
     ListView list;
     CheckBoxAdapter adapter;
-    Button add, delete, edit, view;
+    Button add, delete, edit, view, back;
     ArrayList<Location> locationArrayList;
     Location currentLocation;
 
@@ -58,11 +59,20 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         delete  = (Button) findViewById(R.id.delete);
         edit    = (Button) findViewById(R.id.edit);
         view    = (Button) findViewById(R.id.view);
+        back    = (Button) findViewById(R.id.back);
 
-        add.setOnClickListener(this);
-        delete.setOnClickListener(this);
-        edit.setOnClickListener(this);
-        view.setOnClickListener(this);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle myBundle = new Bundle();
+                myBundle.putString("task", "back");
+                intent.putExtras(myBundle);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        setClicks();
 
         currentLocation = null;
         locationArrayList = new ArrayList<>();
@@ -71,6 +81,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         list.setAdapter(adapter);
     }
 
+    public void setClicks(){
+        add.setOnClickListener(this);
+        delete.setOnClickListener(this);
+        edit.setOnClickListener(this);
+        view.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
@@ -99,18 +115,43 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     }
 
     public void deleteClick(){
+        int count = 0;
         for (Location t: locationArrayList){
-            Log.i("city", t.getCity().getCity());
+            if (t.isSelected()){
+                count++;
+                locationArrayList.remove(t);
+            }
         }
-
+        if (count == 0)
+            Toast.makeText(this, "Choose something to delete", Toast.LENGTH_SHORT).show();
+        else
+            adapter.notifyDataSetChanged();
     }
 
     public void editClick(){
-
+        int count = 0;
+        for (Location t: locationArrayList){
+            if (t.isSelected()){
+                count++;
+            }
+        }
+        if (count != 1)
+            Toast.makeText(this, "Choose only ONE item to edit", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Roseanna: Implement Edit", Toast.LENGTH_SHORT).show();
     }
 
     public void viewClick(){
-
+        int count = 0;
+        for (Location t: locationArrayList){
+            if (t.isSelected()){
+                count++;
+            }
+        }
+        if (count != 1)
+            Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Roseanna: Implement View", Toast.LENGTH_SHORT).show();
     }
 
     public void onResume(){

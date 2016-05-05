@@ -63,9 +63,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle myBundle = new Bundle();
-                myBundle.putString("task", "back");
-                intent.putExtras(myBundle);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -143,18 +140,22 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     }
 
     public void viewClick(){
+        Location temp = null;
         int count = 0;
         for (Location t: locationArrayList){
             if (t.isSelected()){
                 count++;
+                temp = t;
             }
         }
         if (count != 1)
             Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
         else {
-            Toast.makeText(this, "Roseanna: Implement View", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(TraveledActivity.this, AddTraveledActivity.class);
-            startActivityForResult(intent, 100);
+            Bundle myBundle = new Bundle();
+            myBundle.putSerializable("ViewLocation", temp);
+            Intent myIntent = new Intent(TraveledActivity.this, ViewTraveledActivity.class);
+            myIntent.putExtras(myBundle);
+            startActivityForResult(myIntent, 300);
         }
     }
 

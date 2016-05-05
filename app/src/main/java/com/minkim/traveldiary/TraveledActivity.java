@@ -44,7 +44,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     CheckBoxAdapter adapter;
     Button add, delete, edit, view;
     ArrayList<Location> locationArrayList;
-    Location newLocation;
+    Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,11 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         edit.setOnClickListener(this);
         view.setOnClickListener(this);
 
+        currentLocation = null;
         locationArrayList = new ArrayList<>();
+
+        adapter = new CheckBoxAdapter(this, locationArrayList);
+        list.setAdapter(adapter);
     }
 
 
@@ -111,6 +115,11 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
 
     public void onResume(){
         super.onResume();
+        if (currentLocation != null) {
+            locationArrayList.add(currentLocation);
+            Log.i("location array", String.valueOf(locationArrayList.size()));
+            adapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -121,12 +130,16 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
                 Log.i("new Location", myBundle.toString());
-                Location temp   = (Location) myBundle.get("Location");
 
-                String description = temp.getDescription();
-                String cityName = temp.getCity().getCity();
-            
+                Location newLocation    = (Location) myBundle.get("Location");
+                currentLocation         = newLocation;
+
+                String description      = newLocation.getDescription();
+                String cityName         = newLocation.getCity().getCity();
+                String countryN         = newLocation.getCity().getCountry();
+
                 Log.i("City from add", cityName);
+                Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
             }
         }

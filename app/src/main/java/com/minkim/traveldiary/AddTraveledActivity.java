@@ -83,10 +83,13 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
     }
 
     public void populateLocation(){
+        String city = cityText.getText().toString();
+        String country = countryText.getText().toString();
+        newCity = new City(city, country);
         String description = descriptionT.getText().toString();
+        ArrayList<String> picArray = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
         favPlaces.add(favoritePlaces.getText().toString());
-        ArrayList<String> picArray = new ArrayList<>();
         newLocation = new Location(newCity, description, favPlaces, picArray);
     }
     public void putLocation(){
@@ -136,8 +139,6 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
                 JSONObject jObject      = new JSONObject(result.toString());
                 JSONArray prediction    = jObject.getJSONArray("predictions");
                 Log.i("Array info", prediction.toString());
-
-                newCity = new City(params[0], "Country");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

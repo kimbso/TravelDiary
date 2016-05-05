@@ -37,7 +37,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     CheckBoxAdapter adapter;
     Button add, delete, edit, view, back;
     ArrayList<Location> locationArrayList;
-    Location currentLocation;
+    Location currentLocation, editLocation;
     int selectedIndex = -1;
 
     @Override
@@ -125,12 +125,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         Location temp = null;
         int count = 0, index = 0;
         for (Location t: locationArrayList){
-            index++;
             if (t.isSelected()){
                 temp = t;
                 count++;
                 selectedIndex = index;
             }
+            index++;
         }
 
         if (count != 1 && temp != null)
@@ -157,7 +157,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "Roseanna: Implement View", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(TraveledActivity.this, AddTraveledActivity.class);
             startActivityForResult(intent, 100);
-
         }
     }
 
@@ -166,6 +165,13 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         if (currentLocation != null) {
             locationArrayList.add(currentLocation);
             Log.i("location array", String.valueOf(locationArrayList.size()));
+            adapter.notifyDataSetChanged();
+            currentLocation = null;
+        }
+        if (selectedIndex != -1 && editLocation != null){
+            locationArrayList.remove(selectedIndex);
+            locationArrayList.add(selectedIndex, editLocation);
+            selectedIndex = -1;
             adapter.notifyDataSetChanged();
         }
     }
@@ -177,7 +183,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             // Adding location
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
-                Log.i("new Location", myBundle.toString());
 
                 Location newLocation    = (Location) myBundle.get("Location");
                 currentLocation         = newLocation;
@@ -190,24 +195,22 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
             }
-            if (resultCode == 200){
+            if (resultCode != 100){
+                Log.i("200 request Code", String.valueOf(requestCode));
+                Log.i("in request200", "here");
                 Bundle myBundle = data.getExtras();
-                Log.i("new Location", myBundle.toString());
+                editLocation = (Location) myBundle.get("Edit");
+                Log.i("edit location", editLocation.toString());
+                String description      = editLocation.getDescription();
+                String cityName         = editLocation.getCity().getCity();
+                String countryN         = editLocation.getCity().getCountry();
 
-                Location newLocation    = (Location) myBundle.get("Location");
-                currentLocation         = newLocation;
-
-                locationArrayList.set(selectedIndex, currentLocation);
-
-                String description      = newLocation.getDescription();
-                String cityName         = newLocation.getCity().getCity();
-                String countryN         = newLocation.getCity().getCountry();
-
-                Log.i("City from add", cityName);
-                Log.i("Country from add", countryN);
-                Log.i("Description from add", description);
+                Log.i("City from edit", cityName);
+                Log.i("Country from edit", countryN);
+                Log.i("Description from edit", description);
 
             }
+            Log.i("after if", "here");
         }
         catch (Exception e){
             Log.i("ERROR..","onActivityResult");

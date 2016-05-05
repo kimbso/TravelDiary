@@ -3,6 +3,7 @@ package com.minkim.traveldiary;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +18,6 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
     Button done, dates, addPictures;
     Intent myIntent;
     Bundle myBundle;
-
-    int index;
 
     public Location newLocation;
     public City newCity;
@@ -69,7 +68,8 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         getNew();
         myIntent = getIntent();
         myBundle = new Bundle();
-        myBundle.putSerializable("Edit Location", newLocation);
+        Log.i("edit", newLocation.getCity().getCity());
+        myBundle.putSerializable("Edit", newLocation);
         myIntent.putExtras(myBundle);
         setResult(Activity.RESULT_OK, myIntent);
         finish();

@@ -43,11 +43,7 @@
         <activity android:name=".WeatherActivity"></activity>
         <activity android:name=".AddTraveledActivity"/>
         <activity android:name=".EditTraveledActivity"/>
-<<<<<<< HEAD
         <activity android:name=".ViewTraveledActivity"/>
-=======
-
->>>>>>> origin/master
     </application>
 
 </manifest>

@@ -40,6 +40,10 @@
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AddTraveledActivity" />
         <activity android:name=".AddFutureActivity"></activity>
+        <activity android:name=".WeatherActivity"></activity>
+        <activity android:name=".AddTraveledActivity"/>
+        <activity android:name=".EditTraveledActivity"/>
+
     </application>
 
 </manifest>

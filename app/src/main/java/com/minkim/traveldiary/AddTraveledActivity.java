@@ -77,9 +77,10 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         String city     = cityText.getText().toString();
         Log.i("City", city);
         String country  = countryText.getText().toString();
+        putLocation();
 
-        CityScrape cs = new CityScrape();
-        cs.execute(city);
+//        CityScrape cs = new CityScrape();
+//        cs.execute(city);
     }
 
     public void populateLocation(){

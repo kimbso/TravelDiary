@@ -13,16 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +38,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     Button add, delete, edit, view, back;
     ArrayList<Location> locationArrayList;
     Location currentLocation;
+    int selectedIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,16 +122,26 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     }
 
     public void editClick(){
-        int count = 0;
+        Location temp = null;
+        int count = 0, index = 0;
         for (Location t: locationArrayList){
+            index++;
             if (t.isSelected()){
+                temp = t;
                 count++;
+                selectedIndex = index;
             }
         }
-        if (count != 1)
+
+        if (count != 1 && temp != null)
             Toast.makeText(this, "Choose only ONE item to edit", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Roseanna: Implement Edit", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(TraveledActivity.this, EditTraveledActivity.class);
+            Bundle myBundle = new Bundle();
+            myBundle.putSerializable("oldLocation", temp);
+            intent.putExtras(myBundle);
+            startActivityForResult(intent, 200);
+        }
     }
 
     public void viewClick(){
@@ -150,8 +153,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         }
         if (count != 1)
             Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
-        else
+        else {
             Toast.makeText(this, "Roseanna: Implement View", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(TraveledActivity.this, AddTraveledActivity.class);
+            startActivityForResult(intent, 100);
+
+        }
     }
 
     public void onResume(){
@@ -182,6 +189,24 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 Log.i("City from add", cityName);
                 Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
+            }
+            if (resultCode == 200){
+                Bundle myBundle = data.getExtras();
+                Log.i("new Location", myBundle.toString());
+
+                Location newLocation    = (Location) myBundle.get("Location");
+                currentLocation         = newLocation;
+
+                locationArrayList.set(selectedIndex, currentLocation);
+
+                String description      = newLocation.getDescription();
+                String cityName         = newLocation.getCity().getCity();
+                String countryN         = newLocation.getCity().getCountry();
+
+                Log.i("City from add", cityName);
+                Log.i("Country from add", countryN);
+                Log.i("Description from add", description);
+
             }
         }
         catch (Exception e){

@@ -28,6 +28,7 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
         descriptionT    = (TextView) findViewById(R.id.description);
 
         seePictures     = (Button) findViewById(R.id.pictures);
+        done            = (Button) findViewById(R.id.done);
         list            = (ListView) findViewById(R.id.favoritePlaces);
 
         myIntent = getIntent();

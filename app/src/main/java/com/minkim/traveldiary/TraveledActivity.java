@@ -151,6 +151,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         if (count != 1)
             Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
         else {
+            Log.i("VIEW CLICK", "MAKING BUNDLE");
             Bundle myBundle = new Bundle();
             myBundle.putSerializable("ViewLocation", temp);
             Intent myIntent = new Intent(TraveledActivity.this, ViewTraveledActivity.class);

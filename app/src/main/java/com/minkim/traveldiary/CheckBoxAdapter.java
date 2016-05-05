@@ -29,10 +29,16 @@ public class CheckBoxAdapter extends ArrayAdapter {
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cb.isChecked())
-                    locations.get(position).setSelected(true);
-                else if (!cb.isChecked())
+                if (locations.get(position).isSelected()){
                     locations.get(position).setSelected(false);
+                }
+                else{
+                    locations.get(position).setSelected(true);
+                }
+//                if (cb.isChecked())
+//                    locations.get(position).setSelected(true);
+//                else if (!cb.isChecked())
+//                    locations.get(position).setSelected(false);
             }
         });
         return rowView;

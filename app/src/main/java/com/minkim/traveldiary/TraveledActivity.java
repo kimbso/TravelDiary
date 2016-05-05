@@ -127,7 +127,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             }
             index++;
         }
-
+        Log.i("count", String.valueOf(count));
         if (count != 1 && temp != null)
             Toast.makeText(this, "Choose only ONE item to edit", Toast.LENGTH_SHORT).show();
         else {
@@ -190,6 +190,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         list.setAdapter(adapter);
 
         setClicks();
+    }
+
+    public void clearCheck(){
+        for(Location t: locationArrayList){
+            t.setSelected(false);
+        }
     }
     @Override
     public void onStop() {

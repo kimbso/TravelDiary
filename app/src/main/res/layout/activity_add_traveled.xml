@@ -40,6 +40,7 @@
         android:orientation="horizontal"
         android:background="@drawable/customborderblue">
         <TextView
+            android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dates in Location: "

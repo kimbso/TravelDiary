@@ -1,6 +1,7 @@
 package com.minkim.traveldiary;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,11 +9,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,13 +27,17 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by roseanna on 4/28/16.
  */
 public class AddTraveledActivity extends Activity implements View.OnClickListener{
     EditText cityText, countryText, favoritePlaces, descriptionT;
+    TextView dateText;
     Button done, dates, addPictures;
     public Location newLocation;
     public City newCity;
@@ -46,6 +50,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         countryText     = (EditText) findViewById(R.id.countryText);
         favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
         descriptionT    = (EditText) findViewById(R.id.description);
+        dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
         dates           = (Button) findViewById(R.id.dates);
         addPictures     = (Button) findViewById(R.id.pictures);
@@ -104,8 +109,55 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         finish();
     }
 
-    public void dateClick(){
+    Calendar myCalendar = Calendar.getInstance();
+    Calendar myCalendar2 = Calendar.getInstance();
+    String start;
 
+    DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+
+    };
+    DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar2.set(Calendar.YEAR, year);
+            myCalendar2.set(Calendar.MONTH, monthOfYear);
+            myCalendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel2();
+        }
+
+    };
+    private void updateLabel() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        start = sdf.format(myCalendar.getTime());
+        Log.i("start", start);
+        updateLabel2();
+    }
+    private void updateLabel2() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String end = sdf.format(myCalendar2.getTime());
+        Log.i("end", end);
+        dateText.setText(start + " - " + end);
+    }
+    public void dateClick(){
+        new DatePickerDialog(AddTraveledActivity.this, endDate, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(AddTraveledActivity.this, startDate, myCalendar2
+                .get(Calendar.YEAR), myCalendar2.get(Calendar.MONTH),
+                myCalendar2.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     public void pictureClick(){

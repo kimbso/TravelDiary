@@ -20,12 +20,12 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI"/>
+            android:value="AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI" />
 
-        <!--<meta-data  android:name="com.google.android.gms.version"-->
-            <!--android:value="@integer/google_play_services_version"  />-->
-        <!--<meta-data  android:name="com.google.android.maps.v2.API_KEY"-->
-            <!--android:value="AIzaSyCMWujTZzTbnI7g-TzQmEUiizMSncHPbkM"  />-->
+        <!-- <meta-data  android:name="com.google.android.gms.version" -->
+        <!-- android:value="@integer/google_play_services_version"  /> -->
+        <!-- <meta-data  android:name="com.google.android.maps.v2.API_KEY" -->
+        <!-- android:value="AIzaSyCMWujTZzTbnI7g-TzQmEUiizMSncHPbkM"  /> -->
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -37,10 +37,17 @@
         <activity android:name=".TraveledActivity" />
         <activity android:name=".FutureActivity" />
         <activity android:name=".DiscoverActivity" />
+        <activity android:name=".WeatherActivity" />
+        <activity android:name=".AddTraveledActivity" />
+        <activity android:name=".AddFutureActivity"></activity>
         <activity android:name=".WeatherActivity"></activity>
         <activity android:name=".AddTraveledActivity"/>
         <activity android:name=".EditTraveledActivity"/>
+<<<<<<< HEAD
         <activity android:name=".ViewTraveledActivity"/>
+=======
+
+>>>>>>> origin/master
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ public class DiscoverActivity extends AppCompatActivity {
 
     EditText city, country;
     TextView locationName, info;
-    Button search, weather, plane;
+    Button search, weather, plane, add, done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,8 @@ public class DiscoverActivity extends AppCompatActivity {
         search       = (Button)   findViewById(R.id.search);
         weather      = (Button)   findViewById(R.id.weather);
         plane        = (Button)   findViewById(R.id.plane);
+        add          = (Button)   findViewById(R.id.add);
+        done         = (Button)   findViewById(R.id.done);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,11 +50,24 @@ public class DiscoverActivity extends AppCompatActivity {
                 Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
                 cityName = city.getText().toString();
                 countryName = country.getText().toString();
-                Bundle myData = new Bundle();
-                myData.putString("cityName", cityName);
-                myData.putString("countryName", countryName);
-                intent.putExtras(myData);
-                startActivityForResult(intent, 100);
+                if(!cityName.equals("")){
+                    Bundle myData = new Bundle();
+                    myData.putString("cityName", cityName);
+                    myData.putString("countryName", countryName);
+                    intent.putExtras(myData);
+                    startActivityForResult(intent, 100);
+                }
+            }
+        });
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle myBundle = new Bundle();
+                myBundle.putString("task", "back");
+                intent.putExtras(myBundle);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         });
     }

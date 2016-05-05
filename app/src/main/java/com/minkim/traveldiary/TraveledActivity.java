@@ -2,6 +2,7 @@ package com.minkim.traveldiary;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Parcelable;
@@ -22,9 +23,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,6 +44,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     ArrayList<Location> locationArrayList;
     Location currentLocation, editLocation;
     int selectedIndex = -1;
+    String filename = "file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +70,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         });
-
-        setClicks();
-
-        currentLocation = null;
-        locationArrayList = new ArrayList<>();
-
-        adapter = new CheckBoxAdapter(this, locationArrayList);
-        list.setAdapter(adapter);
     }
 
     public void setClicks(){
@@ -176,7 +174,50 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Object o = load(this, filename);
 
+        if (o != null && o instanceof ArrayList)
+            locationArrayList = (ArrayList<Location>) o;
+        else
+            locationArrayList = new ArrayList<Location>();
+
+        adapter = new CheckBoxAdapter(this, locationArrayList);
+        list.setAdapter(adapter);
+
+        setClicks();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        save(this, filename, locationArrayList);
+    }
+    public static void save(Context context, String fileName, Object obj) {
+        try {
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(obj);
+            oos.close();
+        } catch (Exception e) {
+            Log.e("A", "EXCEPTION: " + e.getMessage());
+        }
+    }
+    public static Object load(Context context, String filename) {
+        try {
+            FileInputStream fis = context.openFileInput(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            Object o = ois.readObject();
+            ois.close();
+            return o;
+        } catch (Exception e) {
+            Log.e("B", "EXCEPTION: " + e.getMessage());
+            return null;
+        }
+    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         try {

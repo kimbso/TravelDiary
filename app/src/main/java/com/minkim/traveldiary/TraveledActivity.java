@@ -162,6 +162,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
 
     public void onResume(){
         super.onResume();
+        clearCheck();
         if (currentLocation != null) {
             locationArrayList.add(currentLocation);
             Log.i("location array", String.valueOf(locationArrayList.size()));

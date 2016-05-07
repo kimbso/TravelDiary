@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-public class DiscoverActivity extends AppCompatActivity {
+public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener{
 
     String cityName;
     String countryName;
@@ -70,7 +70,11 @@ public class DiscoverActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        add.setOnClickListener(this);
     }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -83,5 +87,23 @@ public class DiscoverActivity extends AppCompatActivity {
         catch (Exception e){
             Log.i("ERROR","onActivityResult");
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add:
+                addClick();
+                break;
+
+        }
+    }
+
+    public void addClick(){
+        String newCity = city.getText().toString();
+        String newCountry = country.getText().toString();
+        City addCity = new City(newCity, newCountry);
+        Location newLocation = new Location(addCity);
+        Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT);
     }
 }

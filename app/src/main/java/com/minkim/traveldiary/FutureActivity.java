@@ -1,9 +1,13 @@
 package com.minkim.traveldiary;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +20,11 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     ListView list;
     CheckBoxAdapter adapter;
     Button move, add, delete, edit, view, back;
+
+    SQLiteDatabase sampleDB;
+    String tableName  = "Future";
+    String tableName2 = "Traveled";
+
 
     // For testing purposes
     ArrayList<Location> locations = new ArrayList<Location>();
@@ -59,18 +68,12 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        locations = new ArrayList();
-        // for testing purposes
-        City city1 = new City("Rome", "Italy");
-        City city2 = new City("Boston", "USA");
-        ArrayList favPlaces1 = new ArrayList<String>();
-        ArrayList favPlaces2 = new ArrayList<String>();
-        ArrayList pics1 = new ArrayList<String>();
-        ArrayList pics2 = new ArrayList<String>();
-        Location test1 = new Location(city1, "nice place", favPlaces1, pics1);
-        Location test2 = new Location(city2, "cool place", favPlaces2, pics2);
-        locations.add(test1);
-        locations.add(test2);
+        try {
+            sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
+            createTable();
+        } catch (SQLiteException se){
+            Log.e(getClass().getSimpleName(), "Couldn't create database");
+        }
 
         adapter = new CheckBoxAdapter(this, locations);
         list.setAdapter(adapter);
@@ -102,7 +105,21 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     public void move() {
     }
 
-    public void add() {
+    public void insertData(String city, String country, String description, String fav, String date) {
+        ContentValues values = new ContentValues();
+        values.put("City", city);
+        values.put("Country", country);
+        values.put("Description", description);
+        values.put("FavoritePlaces", fav);
+        values.put("Date", date);
+        Log.i("Insert Data", city);
+        sampleDB.insert(tableName, null, values);
+        updateList();
+    }
+
+
+    private void deleteData(String date, String city) {
+        sampleDB.delete(tableName, "Date=?", new String[]{date}, "City=?", new String[]{city});
     }
 
     public void delete(){
@@ -128,4 +145,25 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         view.setOnClickListener(this);
         back.setOnClickListener(this);
     }
+
+    private void createTable() {
+        Log.d(getLocalClassName(), "in create table");
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName +
+                " (City VARCHAR, " +
+                "  Country VARCHAR, " +
+                "  Description VARCHAR" +
+                "  FavoritePlaces VARCHAR" +
+                "  Date VARCHAR);");
+        Log.i("Created Table", "Done");
+
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName2 +
+                " (City VARCHAR, " +
+                "  Country VARCHAR, " +
+                "  Description VARCHAR" +
+                "  FavoritePlaces VARCHAR" +
+                "  Date VARCHAR);");
+        Log.i("Created Table", "Done");
+    }
+
+
 }

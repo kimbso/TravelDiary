@@ -13,6 +13,12 @@ public class Location implements Serializable{
     public ArrayList<String> pictures;
     private boolean selected;
 
+    public Location(City city){
+        this.city = city;
+        this.description = "";
+        this.favoritePlaces = null;
+        this.pictures = null;
+    }
     public Location(City city, String description, ArrayList favoritePlaces, ArrayList pictures){
         this.city           = city;
         this.description    = description;

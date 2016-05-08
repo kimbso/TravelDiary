@@ -12,19 +12,31 @@ public class Location implements Serializable{
     public ArrayList<String> favoritePlaces;
     public ArrayList<String> pictures;
     private boolean selected;
-
+    public String dates;
     public Location(City city){
-        this.city = city;
-        this.description = "";
+        this.city           = city;
+        this.description    = "";
         this.favoritePlaces = null;
-        this.pictures = null;
+        this.pictures       = null;
+        this.dates          = null;
+        this.selected       = false;
     }
     public Location(City city, String description, ArrayList favoritePlaces, ArrayList pictures){
         this.city           = city;
         this.description    = description;
         this.favoritePlaces = favoritePlaces;
         this.pictures       = pictures;
-        this.selected = false;
+        this.dates          = null;
+        this.selected       = false;
+    }
+
+    public Location(City city, String description, ArrayList favoritePlaces, ArrayList pictures, String dates){
+        this.city           = city;
+        this.description    = description;
+        this.favoritePlaces = favoritePlaces;
+        this.pictures       = pictures;
+        this.selected       = false;
+        this.dates          = dates;
     }
 
     public City getCity(){
@@ -47,6 +59,9 @@ public class Location implements Serializable{
         this.selected = selected;
     }
 
+    public String getDates(){
+        return this.dates;
+    }
     public boolean isSelected(){
         return selected;
     }

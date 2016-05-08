@@ -25,6 +25,8 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     String tableName  = "Future";
     String tableName2 = "Traveled";
 
+    String cityValue, countryValue, desValue, favValue, dateValue;
+
 
     // For testing purposes
     ArrayList<Location> locations = new ArrayList<Location>();
@@ -105,22 +107,17 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     public void move() {
     }
 
-    public void insertData(String city, String country, String description, String fav, String date) {
+    public void add(){
+
+    }
+    public void insertData() {
         ContentValues values = new ContentValues();
-        values.put("City", city);
-        values.put("Country", country);
-        values.put("Description", description);
-        values.put("FavoritePlaces", fav);
-        values.put("Date", date);
-        Log.i("Insert Data", city);
+        values.put("City", cityValue);
+        values.put("Country", countryValue);
+        Log.i("Insert Data", cityValue);
         sampleDB.insert(tableName, null, values);
-        updateList();
     }
 
-
-    private void deleteData(String date, String city) {
-        sampleDB.delete(tableName, "Date=?", new String[]{date}, "City=?", new String[]{city});
-    }
 
     public void delete(){
         ArrayList<Location> rem = new ArrayList<Location>();
@@ -150,20 +147,15 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         Log.d(getLocalClassName(), "in create table");
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName +
                 " (City VARCHAR, " +
-                "  Country VARCHAR, " +
-                "  Description VARCHAR" +
-                "  FavoritePlaces VARCHAR" +
-                "  Date VARCHAR);");
+                "  Country VARCHAR);");
         Log.i("Created Table", "Done");
 
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName2 +
                 " (City VARCHAR, " +
-                "  Country VARCHAR, " +
-                "  Description VARCHAR" +
-                "  FavoritePlaces VARCHAR" +
-                "  Date VARCHAR);");
+                "  Country VARCHAR);");
         Log.i("Created Table", "Done");
     }
+
 
 
 }

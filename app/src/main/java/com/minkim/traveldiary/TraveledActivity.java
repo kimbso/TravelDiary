@@ -2,8 +2,11 @@ package com.minkim.traveldiary;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -43,8 +46,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     Button add, delete, edit, view, back;
     ArrayList<Location> locationArrayList;
     Location currentLocation, editLocation;
-    int selectedIndex = -1;
-    String filename = "file";
+    int selectedIndex   = -1;
+    String filename     = "file";
+
+    SQLiteDatabase sampleDB;
+    String tableName    = "Traveled";
+    Cursor cursor       = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,10 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         });
+
+        sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
+        createTable();
+
     }
 
     public void setClicks(){
@@ -101,7 +112,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(TraveledActivity.this, AddTraveledActivity.class);
         startActivityForResult(intent, 100);
     }
-
     public void deleteClick(){
         int count = 0;
         for (Location t: locationArrayList){
@@ -115,7 +125,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         else
             adapter.notifyDataSetChanged();
     }
-
     public void editClick(){
         Location temp = null;
         int count = 0, index = 0;
@@ -163,7 +172,9 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     public void onResume(){
         super.onResume();
         clearCheck();
+        updateList();
         if (currentLocation != null) {
+            insertData(currentLocation);
             locationArrayList.add(currentLocation);
             Log.i("location array", String.valueOf(locationArrayList.size()));
             adapter.notifyDataSetChanged();
@@ -175,6 +186,23 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             selectedIndex = -1;
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void insertData(Location toAdd) {
+        String cityValue    = toAdd.getCity().getCity();
+        String countryValue = toAdd.getCity().getCountry();
+        String desValue     = toAdd.getDescription();
+        String favValue     = toAdd.getFavoritePlaces().toString();
+        String dateValue    = toAdd.getDates();
+
+        ContentValues values = new ContentValues();
+        values.put("City", cityValue);
+        values.put("Country", countryValue);
+        values.put("Description", desValue);
+        values.put("FavoritePlaces", favValue);
+        values.put("Date", dateValue);
+        Log.i("Insert Data", cityValue);
+        sampleDB.insert(tableName, null, values);
     }
 
     @Override
@@ -198,6 +226,38 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             t.setSelected(false);
         }
     }
+
+    private void createTable() {
+        Log.d(getLocalClassName(), "in create table");
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName +
+                " (City VARCHAR, " +
+                "  Country VARCHAR, " +
+                "  Description VARCHAR);");
+
+        Log.i("Created Table", "Done");
+    }
+
+    // checks if anything has been moved from future activities
+    public void updateList(){
+        Log.i("update", "list");
+        cursor = sampleDB.rawQuery("SELECT City, Country, Description FROM " + tableName , null);
+        if(cursor != null) {
+            for(int i = 0; i < cursor.getCount(); i++){
+                cursor.moveToPosition(i);
+                String cityVal          = cursor.getString(cursor.getColumnIndex("City"));
+                String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
+                String description      = cursor.getString(cursor.getColumnIndex("Description"));
+                City newCity            = new City(cityVal, countryVal);
+                Location newLocation    = new Location(newCity, description, null, null);
+                locationArrayList.add(newLocation);
+            }
+            cursor.close();
+            sampleDB.execSQL("Delete from " + tableName);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
     @Override
     public void onStop() {
         super.onStop();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -58,6 +59,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         done.setOnClickListener(this);
         dates.setOnClickListener(this);
         addPictures.setOnClickListener(this);
+
     }
 
     @Override

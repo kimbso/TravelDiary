@@ -65,4 +65,8 @@ public class Location implements Serializable{
     public boolean isSelected(){
         return selected;
     }
+
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
+    }
 }

@@ -42,10 +42,14 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
     Button done, dates, addPictures;
     public Location newLocation;
     public City newCity;
+    ArrayList<String> picArray  = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_traveled);
+
+        for (int i=0; i<5; i++)
+            picArray.add("");
 
         cityText        = (EditText) findViewById(R.id.cityText);
         countryText     = (EditText) findViewById(R.id.countryText);
@@ -101,7 +105,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
 
         String dates                = dateText.getText().toString();
         String description          = descriptionT.getText().toString();
-        ArrayList<String> picArray  = new ArrayList<>();
+
         ArrayList<String> favPlaces = new ArrayList<>();
         favPlaces.add(favoritePlaces.getText().toString());
         newLocation = new Location(newCity, description, favPlaces, picArray, dates);
@@ -170,6 +174,8 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
 
     public void pictureClick(){
         Intent intent = new Intent(AddTraveledActivity.this, AddPicturesActivity.class);
+        Bundle myBundle = new Bundle();
+        intent.putExtras(myBundle);
         startActivityForResult(intent, 100);
     }
 
@@ -179,6 +185,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         try {
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
+
             }
         }
         catch (Exception e){

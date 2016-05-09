@@ -20,11 +20,15 @@ public class AddPicturesActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMAGE4 = 4;
     private static int RESULT_LOAD_IMAGE5 = 5;
     Button add1, add2, add3, add4, add5, del1, del2, del3, del4, del5, done;
+    String picturePath1, picturePath2, picturePath3, picturePath4, picturePath5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pictures);
+
+        Intent myIntent = getIntent();
+        Bundle myBundle = myIntent.getExtras();
 
         done = (Button) findViewById(R.id.done);
         add1 = (Button) findViewById(R.id.add1);
@@ -37,6 +41,11 @@ public class AddPicturesActivity extends AppCompatActivity {
         del3 = (Button) findViewById(R.id.del3);
         del4 = (Button) findViewById(R.id.del4);
         del5 = (Button) findViewById(R.id.del5);
+        ImageView imageView1 = (ImageView) findViewById(R.id.imgView1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.imgView2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.imgView3);
+        ImageView imageView4 = (ImageView) findViewById(R.id.imgView4);
+        ImageView imageView5 = (ImageView) findViewById(R.id.imgView5);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +103,7 @@ public class AddPicturesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView1);
                 imageView.setImageResource(0);
+                picturePath1 = "";
             }
         });
 
@@ -102,6 +112,7 @@ public class AddPicturesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView2);
                 imageView.setImageResource(0);
+                picturePath2 = "";
             }
         });
 
@@ -110,6 +121,7 @@ public class AddPicturesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView3);
                 imageView.setImageResource(0);
+                picturePath3 = "";
             }
         });
 
@@ -118,6 +130,7 @@ public class AddPicturesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView4);
                 imageView.setImageResource(0);
+                picturePath4 = "";
             }
         });
 
@@ -126,6 +139,7 @@ public class AddPicturesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView5);
                 imageView.setImageResource(0);
+                picturePath5 = "";
             }
         });
     }
@@ -143,6 +157,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 cursor.close();
                 ImageView imageView = (ImageView) findViewById(R.id.imgView1);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                picturePath1 = picturePath;
             }
             else if (requestCode == RESULT_LOAD_IMAGE2 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();
@@ -154,6 +169,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 cursor.close();
                 ImageView imageView = (ImageView) findViewById(R.id.imgView2);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                picturePath2 = picturePath;
             }
             else if (requestCode == RESULT_LOAD_IMAGE3 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();
@@ -165,6 +181,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 cursor.close();
                 ImageView imageView = (ImageView) findViewById(R.id.imgView3);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                picturePath3 = picturePath;
             }
             else if (requestCode == RESULT_LOAD_IMAGE4 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();
@@ -176,6 +193,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 cursor.close();
                 ImageView imageView = (ImageView) findViewById(R.id.imgView4);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                picturePath4 = picturePath;
             }
             else if (requestCode == RESULT_LOAD_IMAGE5 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();
@@ -187,6 +205,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 cursor.close();
                 ImageView imageView = (ImageView) findViewById(R.id.imgView5);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                picturePath5 = picturePath;
             }
         }
         catch (Exception e){

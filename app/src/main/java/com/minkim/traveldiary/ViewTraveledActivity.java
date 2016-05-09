@@ -46,7 +46,11 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 
             String city = currentLocation.getCity().getCity();
             String country = currentLocation.getCity().getCountry();
-            locationText.setText(city + ", " + country);
+            if (country.equals("")){
+                locationText.setText(city);
+            }
+            else
+                locationText.setText(city + ", " + country);
             descriptionT.setText(currentLocation.getDescription());
             dates.setText(currentLocation.getDates());
         }

@@ -132,21 +132,30 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Please enter a city name", Toast.LENGTH_SHORT).show();
         else {
             ContentValues values = new ContentValues();
-            values.put("City", city.getText().toString());
-            values.put("Country", country.getText().toString());
-            Log.i("Insert Data", city.getText().toString());
+            String cVal     = city.getText().toString();
+            String coVal    = country.getText().toString();
+            String des      = info.getText().toString();
+            values.put("City", cVal);
+            values.put("Country", coVal);
+            values.put("Description", "Hello");
+            Log.i("Insert Data", des);
             sampleDB.insert(tableName_future, null, values);
+//            String query = "Insert into " + tableName_future + "(City, Country, Description)" +
+//                    "values (" + cVal + ", " + coVal + ", " + des + ");";
+//            sampleDB.execSQL(query);
+//            Log.i("query", query)
             Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void createTable() {
         Log.d(getLocalClassName(), "in create table");
-        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_future +
+        String query = "CREATE TABLE IF NOT EXISTS " + tableName_future +
                 " (City VARCHAR, " +
-                "  Country VARCHAR);");
-        Log.i("Created Table " + tableName_future, "Done");
-
+                "  Country VARCHAR," +
+                "  Description VARCHAR);";
+        sampleDB.execSQL(query);
+        Log.i("Created Table " + tableName_future, query);
     }
 
     private String cleanString(String result){
@@ -157,17 +166,13 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             int index = extracts.indexOf(tag);
             int last = extracts.lastIndexOf("\"");
             extracts = extracts.substring(index + tag.length(), last);
-            Log.i("\"extract\"", extracts);
 
             clean = android.text.Html.fromHtml(extracts).toString();
-            Log.i("please work", clean);
-
             while (clean.contains("(") && clean.contains(")")){
                 int one = clean.indexOf("(");
                 int two = clean.indexOf(")") + 1;
                 String first = clean.substring(0,one);
                 String end   = clean.substring(two, clean.length()-1);
-                Log.i(first, end);
                 return first.concat(end);
             }
         }
@@ -175,12 +180,18 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private String firstSentence(String text){
-        int index = text.indexOf(".");
-        return text.substring(0, index);
+        int index = text.indexOf(". ");
+        if (String.valueOf(text.charAt(index+2)).equals(String.valueOf(text.charAt(index+2)).toUpperCase()))
+            return text.substring(0, index+1);
+        else
+            return text.substring(0, index+2) + firstSentence(text.substring(index+2));
     }
 
     private void setDescription(String description){
-        info.setText(description);
+        if (description.equals("NONE"))
+            Toast.makeText(this, "Try a different city", Toast.LENGTH_SHORT).show();
+        else
+            info.setText(description);
     }
 
     private class CityScrape extends AsyncTask<String, String, String> {
@@ -213,9 +224,10 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
                 description = cleanString(result.toString());
                 if (description == "NONE"){
                     Log.i("no extract", "fuck");
+                }else {
+                    description = firstSentence(description);
+                    Log.i("description", description);
                 }
-                description = firstSentence(description);
-                Log.i("description", description);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

@@ -143,13 +143,6 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(FutureActivity.this, AddFutureActivity.class);
         startActivityForResult(intent, 100);
     }
-    public void insertData(String cityValue, String countryValue) {
-        ContentValues values = new ContentValues();
-        values.put("City", cityValue);
-        values.put("Country", countryValue);
-        Log.i("Insert Data", cityValue);
-        sampleDB.insert(tableName_future, null, values);
-    }
 
 
     public void delete(){
@@ -225,8 +218,9 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
         Log.d(getLocalClassName(), "in create table");
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_future +
-                " (City VARCHAR, " +
-                "  Country VARCHAR);");
+                " (City VARCHAR," +
+                "  Country VARCHAR," +
+                "  Description VARCHAR);");
         Log.i("Created Table " + tableName_future, "Done");
 
     }
@@ -252,17 +246,22 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
     public void updateList(){
         Log.i("update", "list");
-        cursor = sampleDB.rawQuery("SELECT City, Country FROM " + tableName_future, null);
+        cursor = sampleDB.rawQuery("SELECT City, Country, Description FROM " + tableName_future, null);
         if(cursor != null) {
+            Log.i("cursor Column", String.valueOf(cursor.getColumnCount()));
+            Log.i("cursor", String.valueOf(cursor.getCount()));
             for(int i = 0; i < cursor.getCount(); i++){
                 cursor.moveToPosition(i);
                 String cityVal          = cursor.getString(cursor.getColumnIndex("City"));
                 String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
+                String description      = cursor.getString(cursor.getColumnIndex("Description"));
+                Log.i(cityVal, description);
                 City newCity            = new City(cityVal, countryVal);
-                Log.i(cityVal, countryVal);
-                Location newLocation    = new Location(newCity);
+                Log.i("city val", countryVal);
+                Location newLocation    = new Location(newCity, description, null, null);
                 locations.add(newLocation);
             }
+            Log.i("cursor", "not null");
             cursor.close();
             sampleDB.execSQL("Delete from " + tableName_future);
             adapter.notifyDataSetChanged();

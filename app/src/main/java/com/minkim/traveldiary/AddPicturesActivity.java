@@ -29,6 +29,11 @@ public class AddPicturesActivity extends AppCompatActivity {
 
         Intent myIntent = getIntent();
         Bundle myBundle = myIntent.getExtras();
+        picturePath1 = myBundle.getString("picturePath1");
+        picturePath2 = myBundle.getString("picturePath2");
+        picturePath3 = myBundle.getString("picturePath3");
+        picturePath4 = myBundle.getString("picturePath4");
+        picturePath5 = myBundle.getString("picturePath5");
 
         done = (Button) findViewById(R.id.done);
         add1 = (Button) findViewById(R.id.add1);
@@ -42,16 +47,26 @@ public class AddPicturesActivity extends AppCompatActivity {
         del4 = (Button) findViewById(R.id.del4);
         del5 = (Button) findViewById(R.id.del5);
         ImageView imageView1 = (ImageView) findViewById(R.id.imgView1);
+        imageView1.setImageBitmap(BitmapFactory.decodeFile(picturePath1));
         ImageView imageView2 = (ImageView) findViewById(R.id.imgView2);
+        imageView2.setImageBitmap(BitmapFactory.decodeFile(picturePath2));
         ImageView imageView3 = (ImageView) findViewById(R.id.imgView3);
+        imageView3.setImageBitmap(BitmapFactory.decodeFile(picturePath3));
         ImageView imageView4 = (ImageView) findViewById(R.id.imgView4);
+        imageView4.setImageBitmap(BitmapFactory.decodeFile(picturePath4));
         ImageView imageView5 = (ImageView) findViewById(R.id.imgView5);
+        imageView5.setImageBitmap(BitmapFactory.decodeFile(picturePath5));
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Intent myIntent = getIntent();
                 Bundle myBundle = new Bundle();
+                myBundle.putString("picturePath1", picturePath1);
+                myBundle.putString("picturePath2", picturePath2);
+                myBundle.putString("picturePath3", picturePath3);
+                myBundle.putString("picturePath4", picturePath4);
+                myBundle.putString("picturePath5", picturePath5);
                 myIntent.putExtras(myBundle);
                 setResult(Activity.RESULT_OK, myIntent);
                 finish();
@@ -159,7 +174,6 @@ public class AddPicturesActivity extends AppCompatActivity {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView1);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                 picturePath1 = picturePath;
-                Log.i("picturePath1", picturePath1);
             }
             else if (requestCode == RESULT_LOAD_IMAGE2 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();

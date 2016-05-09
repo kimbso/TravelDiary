@@ -29,6 +29,8 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
     public Location newLocation;
     public City newCity;
 
+    ArrayList<String> picArray  = new ArrayList<>();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_traveled);
@@ -45,6 +47,8 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         myIntent = getIntent();
         myBundle = myIntent.getExtras();
         Location oldLocation = (Location) myBundle.get("oldLocation");
+
+        picArray = oldLocation.getPictures();
 
         cityText.setText(oldLocation.getCity().getCity());
         countryText.setText(oldLocation.getCity().getCountry());
@@ -91,7 +95,6 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
         newCity             = new City(city, country);
         String description  = descriptionT.getText().toString();
-        ArrayList<String> picArray  = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
 //        favPlaces.add(favoritePlaces.getText().toString());
         newLocation = new Location(newCity, description, favPlaces, picArray, date);
@@ -150,6 +153,13 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
     public void pictureClick(){
         Intent intent = new Intent(EditTraveledActivity.this, AddPicturesActivity.class);
+        Bundle myBundle = new Bundle();
+        myBundle.putString("picturePath1", picArray.get(0));
+        myBundle.putString("picturePath2", picArray.get(1));
+        myBundle.putString("picturePath3", picArray.get(2));
+        myBundle.putString("picturePath4", picArray.get(3));
+        myBundle.putString("picturePath5", picArray.get(4));
+        intent.putExtras(myBundle);
         startActivityForResult(intent, 100);
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -157,6 +167,12 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         try {
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
+                picArray.clear();
+                picArray.add(myBundle.getString("picturePath1"));
+                picArray.add(myBundle.getString("picturePath2"));
+                picArray.add(myBundle.getString("picturePath3"));
+                picArray.add(myBundle.getString("picturePath4"));
+                picArray.add(myBundle.getString("picturePath5"));
             }
         }
         catch (Exception e){

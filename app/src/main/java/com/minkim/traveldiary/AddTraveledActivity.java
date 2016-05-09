@@ -175,6 +175,11 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
     public void pictureClick(){
         Intent intent = new Intent(AddTraveledActivity.this, AddPicturesActivity.class);
         Bundle myBundle = new Bundle();
+        myBundle.putString("picturePath1", picArray.get(0));
+        myBundle.putString("picturePath2", picArray.get(1));
+        myBundle.putString("picturePath3", picArray.get(2));
+        myBundle.putString("picturePath4", picArray.get(3));
+        myBundle.putString("picturePath5", picArray.get(4));
         intent.putExtras(myBundle);
         startActivityForResult(intent, 100);
     }
@@ -185,7 +190,12 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         try {
             if (requestCode == 100){
                 Bundle myBundle = data.getExtras();
-
+                picArray.clear();
+                picArray.add(myBundle.getString("picturePath1"));
+                picArray.add(myBundle.getString("picturePath2"));
+                picArray.add(myBundle.getString("picturePath3"));
+                picArray.add(myBundle.getString("picturePath4"));
+                picArray.add(myBundle.getString("picturePath5"));
             }
         }
         catch (Exception e){

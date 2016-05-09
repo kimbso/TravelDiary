@@ -44,7 +44,8 @@
         <activity android:name=".AddTraveledActivity" />
         <activity android:name=".AddPicturesActivity" />
         <activity android:name=".ViewFutureActivity" />
-        <activity android:name=".EditFutureActivity"></activity>
+        <activity android:name=".EditFutureActivity" />
+        <activity android:name=".SeePicturesActivity"></activity>
     </application>
 
 </manifest>

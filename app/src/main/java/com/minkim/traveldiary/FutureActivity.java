@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Future;
 
 public class FutureActivity extends AppCompatActivity implements View.OnClickListener, Serializable {
 
@@ -28,8 +29,10 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     SQLiteDatabase sampleDB;
     String tableName_future  = "Future";
     String tableName_traveled = "Traveled";
-
     String filename = "future";
+
+    Location editLocation;
+    int selectedIndex = -1;
 
     // for adding
     Location currentLocation;
@@ -160,9 +163,49 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         adapter.notifyDataSetChanged();
     }
 
-    public void edit(){}
+    public void edit(){
+        Location temp = null;
+        int count = 0, index = 0;
+        for (Location t: locations){
+            if (t.isSelected()){
+                temp = t;
+                count++;
+                selectedIndex = index;
+            }
+            index++;
+        }
+        Log.i("count", String.valueOf(count));
+        if (count != 1 && temp != null)
+            Toast.makeText(this, "Choose only ONE item to edit", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(FutureActivity.this, EditTraveledActivity.class);
+            Bundle myBundle = new Bundle();
+            myBundle.putSerializable("oldLocation", temp);
+            intent.putExtras(myBundle);
+            startActivityForResult(intent, 200);
+        }
+    }
 
-    public void view(){}
+    public void view(){
+        Location temp = null;
+        int count = 0;
+        for (Location t: locations){
+            if (t.isSelected()){
+                count++;
+                temp = t;
+            }
+        }
+        if (count != 1)
+            Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
+        else {
+            Log.i("VIEW CLICK", "MAKING BUNDLE");
+            Bundle myBundle = new Bundle();
+            myBundle.putSerializable("ViewLocation", temp);
+            Intent myIntent = new Intent(FutureActivity.this, ViewTraveledActivity.class);
+            myIntent.putExtras(myBundle);
+            startActivityForResult(myIntent, 300);
+        }
+    }
 
     public void setClicks() {
         move.setOnClickListener(this);
@@ -196,6 +239,13 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             Log.i("location array", String.valueOf(locations.size()));
             adapter.notifyDataSetChanged();
             currentLocation = null;
+        }
+        if (selectedIndex != -1 && editLocation != null){
+            locations.remove(selectedIndex);
+            locations.add(selectedIndex, editLocation);
+            selectedIndex = -1;
+            editLocation = null;
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -236,6 +286,23 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
                 Log.i("City from add", cityName);
                 Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
+            }
+            // Edit
+            else{
+                Log.i("200 request Code", String.valueOf(requestCode));
+                Log.i("in request200", "here");
+                Bundle myBundle = data.getExtras();
+                editLocation = (Location) myBundle.get("Edit");
+                Log.i("edit location", editLocation.toString());
+                String description      = editLocation.getDescription();
+                String cityName         = editLocation.getCity().getCity();
+                String countryN         = editLocation.getCity().getCountry();
+                String dates            = editLocation.getDates();
+
+                Log.i("City from edit", cityName);
+                Log.i("Country from edit", countryN);
+                Log.i("Description from edit", description);
+                Log.i("Dates from edit", dates);
             }
             Log.i("after if", "here");
         }

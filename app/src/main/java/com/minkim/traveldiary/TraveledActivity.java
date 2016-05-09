@@ -105,6 +105,8 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 Log.i("ONCLICK", "DEFAULT");
                 break;
         }
+        adapter.notifyDataSetChanged();
+        clearCheck();
     }
 
     public void addClick(){
@@ -112,18 +114,18 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         startActivityForResult(intent, 100);
     }
     public void deleteClick(){
-        int count = 0;
+        ArrayList<Location> toDelete = new ArrayList<>();
         for (Location t: locationArrayList){
-            if (t.isSelected()){
-                count++;
-                locationArrayList.remove(t);
-            }
+            if(t.isSelected())
+                toDelete.add(t);
         }
-        if (count == 0)
-            Toast.makeText(this, "Choose something to delete", Toast.LENGTH_SHORT).show();
-        else
-            adapter.notifyDataSetChanged();
+        for (Location t: toDelete)
+            locationArrayList.remove(t);
+        if (toDelete.size() == 0)
+            Toast.makeText(this, "Choose items to delete", Toast.LENGTH_SHORT).show();
+        adapter.notifyDataSetChanged();
     }
+
     public void editClick(){
         Location temp = null;
         int count = 0, index = 0;

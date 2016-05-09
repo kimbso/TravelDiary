@@ -149,10 +149,44 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private String cleanString(String result){
+        String extracts = result.toString();
+        String tag = "\"extract\":\"";
+        String clean = "NONE";
+        if (extracts.contains(tag)) {
+            int index = extracts.indexOf(tag);
+            int last = extracts.lastIndexOf("\"");
+            extracts = extracts.substring(index + tag.length(), last);
+            Log.i("\"extract\"", extracts);
+
+            clean = android.text.Html.fromHtml(extracts).toString();
+            Log.i("please work", clean);
+
+            while (clean.contains("(") && clean.contains(")")){
+                int one = clean.indexOf("(");
+                int two = clean.indexOf(")") + 1;
+                String first = clean.substring(0,one);
+                String end   = clean.substring(two, clean.length()-1);
+                Log.i(first, end);
+                return first.concat(end);
+            }
+        }
+        return clean;
+    }
+
+    private String firstSentence(String text){
+        int index = text.indexOf(".");
+        return text.substring(0, index);
+    }
+
+    private void setDescription(String description){
+        info.setText(description);
+    }
+
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
         StringBuilder result = new StringBuilder();
-
+        String description;
         protected void onPreExecute() {
             progressDialog.setMessage("Downloading your data...");
             progressDialog.show();
@@ -173,26 +207,27 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
                 String line;
                 while ((line = reader.readLine()) != null){
+                    Log.i("line", line);
                     result.append(line);
                 }
-                JSONObject jObject      = new JSONObject(result.toString());
-                JSONArray jsonArray     = jObject.getJSONArray("pages");
-                JSONObject text         = (JSONObject) jsonArray.get(3);
-                Log.i("Array info", text.toString());
+                description = cleanString(result.toString());
+                if (description == "NONE"){
+                    Log.i("no extract", "fuck");
+                }
+                description = firstSentence(description);
+                Log.i("description", description);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
             return null;
         }
 
         protected void onPostExecute(String result){
             progressDialog.dismiss();
+            setDescription(description);
         }
     }
 

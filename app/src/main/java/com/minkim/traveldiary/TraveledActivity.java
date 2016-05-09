@@ -74,7 +74,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         });
-
         sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
         createTable();
 
@@ -174,7 +173,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         clearCheck();
         updateList();
         if (currentLocation != null) {
-            insertData(currentLocation);
             locationArrayList.add(currentLocation);
             Log.i("location array", String.valueOf(locationArrayList.size()));
             adapter.notifyDataSetChanged();
@@ -184,25 +182,9 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
             locationArrayList.remove(selectedIndex);
             locationArrayList.add(selectedIndex, editLocation);
             selectedIndex = -1;
+            editLocation = null;
             adapter.notifyDataSetChanged();
         }
-    }
-
-    private void insertData(Location toAdd) {
-        String cityValue    = toAdd.getCity().getCity();
-        String countryValue = toAdd.getCity().getCountry();
-        String desValue     = toAdd.getDescription();
-        String favValue     = toAdd.getFavoritePlaces().toString();
-        String dateValue    = toAdd.getDates();
-
-        ContentValues values = new ContentValues();
-        values.put("City", cityValue);
-        values.put("Country", countryValue);
-        values.put("Description", desValue);
-        values.put("FavoritePlaces", favValue);
-        values.put("Date", dateValue);
-        Log.i("Insert Data", cityValue);
-        sampleDB.insert(tableName, null, values);
     }
 
     @Override
@@ -248,6 +230,7 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
                 String description      = cursor.getString(cursor.getColumnIndex("Description"));
                 City newCity            = new City(cityVal, countryVal);
+                Log.i(cityVal, countryVal);
                 Location newLocation    = new Location(newCity, description, null, null);
                 locationArrayList.add(newLocation);
             }

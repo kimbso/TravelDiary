@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.*;
 import java.util.*;
@@ -22,11 +23,11 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     Button move, add, delete, edit, view, back;
 
     SQLiteDatabase sampleDB;
-    String tableName  = "Future";
-    String tableName2 = "Traveled";
+    String tableName_future  = "Future";
+    String tableName_traveled = "Traveled";
 
-    String cityValue, countryValue, desValue, favValue, dateValue;
-
+    // for adding
+    Location currentLocation;
 
     // For testing purposes
     ArrayList<Location> locations = new ArrayList<Location>();
@@ -53,17 +54,6 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View v) {
                 Bundle myBundle = new Bundle();
                 myBundle.putString("task", "back");
-                intent.putExtras(myBundle);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        });
-
-        move.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle myBundle = new Bundle();
-                myBundle.putString("task", "move");
                 intent.putExtras(myBundle);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
@@ -105,17 +95,38 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void move() {
+        Location temp = null;
+        int count = 0;
+        for (Location t: locations){
+            if (t.isSelected()){
+                count++;
+                temp = t;
+            }
+        }
+        if (count != 1)
+            Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
+        else {
+            ContentValues values = new ContentValues();
+            values.put("City", temp.getCity().getCity());
+            values.put("Country", temp.getCity().getCountry());
+            values.put("Description", temp.getDescription());
+            Log.i("Insert Data", temp.getCity().getCity());
+            sampleDB.insert(tableName_traveled, null, values);
+            locations.remove(temp);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void add(){
-
+        Intent intent = new Intent(FutureActivity.this, AddFutureActivity.class);
+        startActivityForResult(intent, 100);
     }
-    public void insertData() {
+    public void insertData(String cityValue, String countryValue) {
         ContentValues values = new ContentValues();
         values.put("City", cityValue);
         values.put("Country", countryValue);
         Log.i("Insert Data", cityValue);
-        sampleDB.insert(tableName, null, values);
+        sampleDB.insert(tableName_future, null, values);
     }
 
 
@@ -144,18 +155,54 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void createTable() {
-        Log.d(getLocalClassName(), "in create table");
-        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName +
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_traveled +
                 " (City VARCHAR, " +
-                "  Country VARCHAR);");
-        Log.i("Created Table", "Done");
+                "  Country VARCHAR, " +
+                "  Description VARCHAR);");
+        Log.i("Created Table " + tableName_traveled, "Done");
 
-        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName2 +
+        Log.d(getLocalClassName(), "in create table");
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_future +
                 " (City VARCHAR, " +
                 "  Country VARCHAR);");
-        Log.i("Created Table", "Done");
+        Log.i("Created Table " + tableName_future, "Done");
+
     }
 
+    public void onResume(){
+        super.onResume();
+        if (currentLocation != null) {
+            locations.add(currentLocation);
+            Log.i("location array", String.valueOf(locations.size()));
+            adapter.notifyDataSetChanged();
+            currentLocation = null;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // Adding location
+            if (requestCode == 100){
+                Bundle myBundle = data.getExtras();
+
+                Location newLocation    = (Location) myBundle.get("Location");
+                currentLocation         = newLocation;
+
+                String description      = newLocation.getDescription();
+                String cityName         = newLocation.getCity().getCity();
+                String countryN         = newLocation.getCity().getCountry();
+
+                Log.i("City from add", cityName);
+                Log.i("Country from add", countryN);
+                Log.i("Description from add", description);
+            }
+            Log.i("after if", "here");
+        }
+        catch (Exception e){
+            Log.i("ERROR..","onActivityResult");
+        }
+    }
 
 
 }

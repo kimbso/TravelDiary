@@ -35,12 +35,12 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
         cityText        = (EditText) findViewById(R.id.cityText);
         countryText     = (EditText) findViewById(R.id.countryText);
-        favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
+//        favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
         descriptionT    = (EditText) findViewById(R.id.description);
         dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
         dates           = (Button) findViewById(R.id.dates);
-        addPictures     = (Button) findViewById(R.id.pictures);
+//        addPictures     = (Button) findViewById(R.id.pictures);
 
         myIntent = getIntent();
         myBundle = myIntent.getExtras();
@@ -48,12 +48,12 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
         cityText.setText(oldLocation.getCity().getCity());
         countryText.setText(oldLocation.getCity().getCountry());
-        favoritePlaces.setText(oldLocation.getFavoritePlaces().toString());
+//        favoritePlaces.setText(oldLocation.getFavoritePlaces().toString());
         descriptionT.setText(oldLocation.getDescription());
 
         done.setOnClickListener(this);
         dates.setOnClickListener(this);
-        addPictures.setOnClickListener(this);
+//        addPictures.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -90,7 +90,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         String description  = descriptionT.getText().toString();
         ArrayList<String> picArray  = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
-        favPlaces.add(favoritePlaces.getText().toString());
+//        favPlaces.add(favoritePlaces.getText().toString());
         newLocation = new Location(newCity, description, favPlaces, picArray);
     }
 

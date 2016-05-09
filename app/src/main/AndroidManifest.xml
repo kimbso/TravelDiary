@@ -34,16 +34,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TraveledActivity" />
-        <activity android:name=".FutureActivity" />
         <activity android:name=".DiscoverActivity" />
         <activity android:name=".WeatherActivity" />
-        <activity android:name=".AddTraveledActivity" />
-        <activity android:name=".AddFutureActivity"></activity>
-        <activity android:name=".WeatherActivity"></activity>
-        <activity android:name=".AddTraveledActivity"/>
+
+        <activity android:name=".FutureActivity" />
+        <activity android:name=".AddFutureActivity"/>
+
+        <activity android:name=".TraveledActivity" />
         <activity android:name=".EditTraveledActivity"/>
         <activity android:name=".ViewTraveledActivity"/>
+        <activity android:name=".AddTraveledActivity" />
     </application>
 
 </manifest>

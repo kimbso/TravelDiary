@@ -38,9 +38,10 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 
         if(currentLocation != null) {
             Log.i("CURRENT LOCATION", currentLocation.getCity().getCity());
-            ArrayList<String> placeArray = currentLocation.getFavoritePlaces();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, placeArray);
-            list.setAdapter(adapter);
+//            Consider deleting favorite places
+//            ArrayList<String> placeArray = currentLocation.getFavoritePlaces();
+//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, placeArray);
+//            list.setAdapter(adapter);
 
             locationText.setText(currentLocation.getCity().getCity());
             descriptionT.setText(currentLocation.getDescription());

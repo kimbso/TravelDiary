@@ -50,7 +50,8 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         countryText.setText(oldLocation.getCity().getCountry());
 //        favoritePlaces.setText(oldLocation.getFavoritePlaces().toString());
         descriptionT.setText(oldLocation.getDescription());
-
+        dateText.setText(oldLocation.getDates());
+        
         done.setOnClickListener(this);
         dates.setOnClickListener(this);
         addPictures.setOnClickListener(this);
@@ -86,12 +87,14 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
     public void getNew(){
         String city         = cityText.getText().toString();
         String country      = countryText.getText().toString();
+        String date         = dateText.getText().toString();
+
         newCity             = new City(city, country);
         String description  = descriptionT.getText().toString();
         ArrayList<String> picArray  = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
 //        favPlaces.add(favoritePlaces.getText().toString());
-        newLocation = new Location(newCity, description, favPlaces, picArray);
+        newLocation = new Location(newCity, description, favPlaces, picArray, date);
     }
 
     Calendar myCalendar = Calendar.getInstance();
@@ -123,16 +126,16 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
     };
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        start = sdf.format(myCalendar.getTime());
+        String myFormat         = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf    = new SimpleDateFormat(myFormat, Locale.US);
+        start                   = sdf.format(myCalendar.getTime());
         Log.i("start", start);
         updateLabel2();
     }
     private void updateLabel2() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        String end = sdf.format(myCalendar2.getTime());
+        String myFormat         = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf    = new SimpleDateFormat(myFormat, Locale.US);
+        String end              = sdf.format(myCalendar2.getTime());
         Log.i("end", end);
         dateText.setText(start + " - " + end);
     }

@@ -283,10 +283,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 String description      = newLocation.getDescription();
                 String cityName         = newLocation.getCity().getCity();
                 String countryN         = newLocation.getCity().getCountry();
+                String dates            = newLocation.getDates();
 
                 Log.i("City from add", cityName);
                 Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
+                Log.i("Dates from add", dates);
             }
             if (resultCode != 100){
                 Log.i("200 request Code", String.valueOf(requestCode));
@@ -297,11 +299,12 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 String description      = editLocation.getDescription();
                 String cityName         = editLocation.getCity().getCity();
                 String countryN         = editLocation.getCity().getCountry();
+                String dates            = editLocation.getDates();
 
                 Log.i("City from edit", cityName);
                 Log.i("Country from edit", countryN);
                 Log.i("Description from edit", description);
-
+                Log.i("Dates from edit", dates);
             }
             Log.i("after if", "here");
         }

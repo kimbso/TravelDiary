@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ViewTraveledActivity extends Activity implements View.OnClickListener{
 
-    TextView locationText, descriptionT;
+    TextView locationText, descriptionT, dates;
     Button seePictures, done;
     Intent myIntent;
     Bundle myBundle;
@@ -26,6 +26,7 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 
         locationText    = (TextView) findViewById(R.id.locationText);
         descriptionT    = (TextView) findViewById(R.id.description);
+        dates           = (TextView) findViewById(R.id.dates);
 
         seePictures     = (Button) findViewById(R.id.pictures);
         done            = (Button) findViewById(R.id.done);
@@ -45,6 +46,7 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 
             locationText.setText(currentLocation.getCity().getCity());
             descriptionT.setText(currentLocation.getDescription());
+            dates.setText(currentLocation.getDates());
         }
 
         seePictures.setOnClickListener(this);

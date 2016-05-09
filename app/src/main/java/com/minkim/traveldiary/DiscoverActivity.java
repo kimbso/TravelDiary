@@ -12,6 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener{
 
     String cityName;
@@ -41,14 +54,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         add          = (Button)   findViewById(R.id.add);
         done         = (Button)   findViewById(R.id.done);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cityName = city.getText().toString();
-                countryName = country.getText().toString();
-                locationName.setText(cityName + ", " + countryName);
-            }
-        });
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +71,10 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         } catch (SQLiteException se){
             Log.e(getClass().getSimpleName(), "Couldn't create database");
         }
-
+        search.setOnClickListener(this);
         weather.setOnClickListener(this);
         add.setOnClickListener(this);
+
     }
 
 
@@ -95,9 +101,19 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             case R.id.weather:
                 weatherClick();
                 break;
+            case R.id.search:
+                searchClick();
+                break;
         }
     }
 
+    public void searchClick(){
+        cityName = city.getText().toString();
+        countryName = country.getText().toString();
+        locationName.setText(cityName + ", " + countryName);
+        CityScrape cs = new CityScrape();
+        cs.execute(cityName);
+    }
     public void weatherClick() {
         Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
         cityName = city.getText().toString();
@@ -132,4 +148,52 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         Log.i("Created Table " + tableName_future, "Done");
 
     }
+
+    private class CityScrape extends AsyncTask<String, String, String> {
+        private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
+        StringBuilder result = new StringBuilder();
+
+        protected void onPreExecute() {
+            progressDialog.setMessage("Downloading your data...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+//            String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
+//            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
+//                    + "&types=(cities)&key=" + apiKey;
+            String jsonUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&titles=" + params[0];
+            Log.i("URL", jsonUrl);
+            try {
+                URL url = new URL(jsonUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null){
+                    result.append(line);
+                }
+                JSONObject jObject      = new JSONObject(result.toString());
+                JSONArray jsonArray     = jObject.getJSONArray("pages");
+                JSONObject text         = (JSONObject) jsonArray.get(3);
+                Log.i("Array info", text.toString());
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String result){
+            progressDialog.dismiss();
+        }
+    }
+
 }

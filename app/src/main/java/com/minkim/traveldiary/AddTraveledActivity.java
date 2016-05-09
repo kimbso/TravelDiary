@@ -173,51 +173,6 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         startActivityForResult(intent, 100);
     }
 
-    private class CityScrape extends AsyncTask<String, String, String> {
-        private ProgressDialog progressDialog = new ProgressDialog(AddTraveledActivity.this);
-        StringBuilder result = new StringBuilder();
-
-        protected void onPreExecute() {
-            progressDialog.setMessage("Downloading your data...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
-            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
-                    + "&types=(cities)&key=" + apiKey;
-            Log.i("URL", jsonUrl);
-            try {
-                URL url = new URL(jsonUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String line;
-                while ((line = reader.readLine()) != null){
-                    result.append(line);
-                }
-                JSONObject jObject      = new JSONObject(result.toString());
-                JSONArray prediction    = jObject.getJSONArray("predictions");
-                Log.i("Array info", prediction.toString());
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(String result){
-            progressDialog.dismiss();
-            putLocation();
-        }
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);

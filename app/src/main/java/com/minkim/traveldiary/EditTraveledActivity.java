@@ -51,7 +51,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 //        favoritePlaces.setText(oldLocation.getFavoritePlaces().toString());
         descriptionT.setText(oldLocation.getDescription());
         dateText.setText(oldLocation.getDates());
-        
+
         done.setOnClickListener(this);
         dates.setOnClickListener(this);
         addPictures.setOnClickListener(this);

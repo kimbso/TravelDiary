@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     ListView list;
     CheckBoxAdapter adapter;
     Button move, add, delete, edit, view, back;
+    Cursor cursor;
 
     SQLiteDatabase sampleDB;
     String tableName_future  = "Future";
@@ -188,11 +190,32 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
     public void onResume(){
         super.onResume();
+        updateList();
         if (currentLocation != null) {
             locations.add(currentLocation);
             Log.i("location array", String.valueOf(locations.size()));
             adapter.notifyDataSetChanged();
             currentLocation = null;
+        }
+    }
+
+
+    public void updateList(){
+        Log.i("update", "list");
+        cursor = sampleDB.rawQuery("SELECT City, Country FROM " + tableName_future, null);
+        if(cursor != null) {
+            for(int i = 0; i < cursor.getCount(); i++){
+                cursor.moveToPosition(i);
+                String cityVal          = cursor.getString(cursor.getColumnIndex("City"));
+                String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
+                City newCity            = new City(cityVal, countryVal);
+                Log.i(cityVal, countryVal);
+                Location newLocation    = new Location(newCity);
+                locations.add(newLocation);
+            }
+            cursor.close();
+            sampleDB.execSQL("Delete from " + tableName_future);
+            adapter.notifyDataSetChanged();
         }
     }
 

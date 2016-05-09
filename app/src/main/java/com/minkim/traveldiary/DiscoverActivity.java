@@ -1,5 +1,8 @@
 package com.minkim.traveldiary;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.*;
 import android.app.*;
@@ -17,6 +20,9 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     EditText city, country;
     TextView locationName, info;
     Button search, weather, plane, add, done;
+
+    SQLiteDatabase sampleDB;
+    String tableName_future  = "Future";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +50,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        weather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
-                cityName = city.getText().toString();
-                countryName = country.getText().toString();
-                if(!cityName.equals("")){
-                    Bundle myData = new Bundle();
-                    myData.putString("cityName", cityName);
-                    myData.putString("countryName", countryName);
-                    intent.putExtras(myData);
-                    startActivityForResult(intent, 100);
-                }
-            }
-        });
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +60,14 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             }
         });
+        try {
+            sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
+            createTable();
+        } catch (SQLiteException se){
+            Log.e(getClass().getSimpleName(), "Couldn't create database");
+        }
 
+        weather.setOnClickListener(this);
         add.setOnClickListener(this);
     }
 
@@ -95,15 +92,44 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             case R.id.add:
                 addClick();
                 break;
-
+            case R.id.weather:
+                weatherClick();
+                break;
         }
     }
 
-    public void addClick(){
-        String newCity = city.getText().toString();
-        String newCountry = country.getText().toString();
-        City addCity = new City(newCity, newCountry);
-        Location newLocation = new Location(addCity);
-        Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT);
+    public void weatherClick() {
+        Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
+        cityName = city.getText().toString();
+        countryName = country.getText().toString();
+        if (!cityName.equals("")) {
+            Bundle myData = new Bundle();
+            myData.putString("cityName", cityName);
+            myData.putString("countryName", countryName);
+            intent.putExtras(myData);
+            startActivityForResult(intent, 100);
+        }
+    }
+
+    public void addClick() {
+        if (city.getText().length() == 0)
+            Toast.makeText(this, "Please enter a city name", Toast.LENGTH_SHORT).show();
+        else {
+            ContentValues values = new ContentValues();
+            values.put("City", city.getText().toString());
+            values.put("Country", country.getText().toString());
+            Log.i("Insert Data", city.getText().toString());
+            sampleDB.insert(tableName_future, null, values);
+            Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createTable() {
+        Log.d(getLocalClassName(), "in create table");
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_future +
+                " (City VARCHAR, " +
+                "  Country VARCHAR);");
+        Log.i("Created Table " + tableName_future, "Done");
+
     }
 }

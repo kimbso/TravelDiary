@@ -36,14 +36,13 @@
         </activity>
         <activity android:name=".DiscoverActivity" />
         <activity android:name=".WeatherActivity" />
-
         <activity android:name=".FutureActivity" />
-        <activity android:name=".AddFutureActivity"/>
-
+        <activity android:name=".AddFutureActivity" />
         <activity android:name=".TraveledActivity" />
-        <activity android:name=".EditTraveledActivity"/>
-        <activity android:name=".ViewTraveledActivity"/>
+        <activity android:name=".EditTraveledActivity" />
+        <activity android:name=".ViewTraveledActivity" />
         <activity android:name=".AddTraveledActivity" />
+        <activity android:name=".AddPicturesActivity"></activity>
     </application>
 
 </manifest>

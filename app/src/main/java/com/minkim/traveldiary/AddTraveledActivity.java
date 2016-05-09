@@ -163,7 +163,8 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
     }
 
     public void pictureClick(){
-
+        Intent intent = new Intent(AddTraveledActivity.this, AddPicturesActivity.class);
+        startActivityForResult(intent, 100);
     }
 
     private class CityScrape extends AsyncTask<String, String, String> {
@@ -209,6 +210,17 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         protected void onPostExecute(String result){
             progressDialog.dismiss();
             putLocation();
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == 100){
+                Bundle myBundle = data.getExtras();
+            }
+        }
+        catch (Exception e){
+            Log.i("ERROR..","onActivityResult");
         }
     }
 }

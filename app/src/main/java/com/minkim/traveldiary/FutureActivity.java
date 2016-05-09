@@ -2,6 +2,7 @@ package com.minkim.traveldiary;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -26,6 +27,8 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     String tableName_future  = "Future";
     String tableName_traveled = "Traveled";
 
+    String filename = "future";
+
     // for adding
     Location currentLocation;
 
@@ -37,8 +40,6 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_future);
 
-        final Intent intent = getIntent();
-
         list    = (ListView) findViewById(R.id.list);
         move    = (Button) findViewById(R.id.move);
         add     = (Button) findViewById(R.id.add);
@@ -47,18 +48,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         view    = (Button) findViewById(R.id.view);
         back    = (Button) findViewById(R.id.back);
 
-        setOnClickListeners();
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle myBundle = new Bundle();
-                myBundle.putString("task", "back");
-                intent.putExtras(myBundle);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        });
+        setClicks();
 
         try {
             sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
@@ -69,6 +59,21 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
         adapter = new CheckBoxAdapter(this, locations);
         list.setAdapter(adapter);
+    }
+
+    public void onStart() {
+        super.onStart();
+        Object o = load(this, filename);
+
+        if (o != null && o instanceof ArrayList)
+            locations = (ArrayList<Location>) o;
+        else
+            locations = new ArrayList<Location>();
+
+        adapter = new CheckBoxAdapter(this, locations);
+        list.setAdapter(adapter);
+
+        setClicks();
     }
 
     @Override
@@ -86,12 +91,24 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.edit:
                 edit();
                 break;
+            case R.id.back:
+                back();
+                break;
             case R.id.view:
                 view();
                 break;
         }
         for (Location i : locations)
             i.setSelected(false);
+    }
+
+    public void back(){
+        final Intent intent = getIntent();
+        Bundle myBundle = new Bundle();
+        myBundle.putString("task", "back");
+        intent.putExtras(myBundle);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
     public void move() {
@@ -145,7 +162,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
     public void view(){}
 
-    public void setOnClickListeners() {
+    public void setClicks() {
         move.setOnClickListener(this);
         add.setOnClickListener(this);
         delete.setOnClickListener(this);
@@ -201,6 +218,35 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         }
         catch (Exception e){
             Log.i("ERROR..","onActivityResult");
+        }
+    }
+
+    public void onStop() {
+        super.onStop();
+        save(this, filename, locations);
+    }
+    public static void save(Context context, String fileName, Object obj) {
+        try {
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(obj);
+            oos.close();
+        } catch (Exception e) {
+            Log.e("A", "EXCEPTION: " + e.getMessage());
+        }
+    }
+    public static Object load(Context context, String filename) {
+        try {
+            FileInputStream fis = context.openFileInput(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            Object o = ois.readObject();
+            ois.close();
+            return o;
+        } catch (Exception e) {
+            Log.e("B", "EXCEPTION: " + e.getMessage());
+            return null;
         }
     }
 

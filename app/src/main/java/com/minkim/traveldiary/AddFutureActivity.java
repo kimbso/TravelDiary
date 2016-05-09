@@ -52,12 +52,16 @@ public class AddFutureActivity extends Activity implements View.OnClickListener 
         newLocation = new Location(newCity, description.getText().toString(), null, null);
     }
     public void done() {
-        populateLocation();
-        final Intent myIntent = getIntent();
-        Bundle myBundle = new Bundle();
-        myBundle.putSerializable("Location", newLocation);
-        myIntent.putExtras(myBundle);
-        setResult(Activity.RESULT_OK, myIntent);
-        finish();
+        if(!cityText.getText().toString().equals("")) {
+            populateLocation();
+            final Intent myIntent = getIntent();
+            Bundle myBundle = new Bundle();
+            myBundle.putSerializable("Location", newLocation);
+            myIntent.putExtras(myBundle);
+            setResult(Activity.RESULT_OK, myIntent);
+            finish();
+        }
+        else
+            Toast.makeText(this, "Please enter a city", Toast.LENGTH_SHORT).show();
     }
 }

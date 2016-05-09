@@ -81,10 +81,14 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
 
     // Get location information
     public void doneClick(){
-        String city     = cityText.getText().toString();
-        Log.i("City", city);
-        String country  = countryText.getText().toString();
-        putLocation();
+        if(!cityText.getText().toString().equals("")) {
+            String city     = cityText.getText().toString();
+            Log.i("City", city);
+            String country  = countryText.getText().toString();
+            putLocation();
+        }
+        else
+            Toast.makeText(this, "Please enter a city", Toast.LENGTH_SHORT).show();
 
 //        CityScrape cs = new CityScrape();
 //        cs.execute(city);

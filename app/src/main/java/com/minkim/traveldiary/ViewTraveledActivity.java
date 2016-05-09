@@ -44,7 +44,9 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 //            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, placeArray);
 //            list.setAdapter(adapter);
 
-            locationText.setText(currentLocation.getCity().getCity());
+            String city = currentLocation.getCity().getCity();
+            String country = currentLocation.getCity().getCountry();
+            locationText.setText(city + ", " + country);
             descriptionT.setText(currentLocation.getDescription());
             dates.setText(currentLocation.getDates());
         }

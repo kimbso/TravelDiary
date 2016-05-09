@@ -178,7 +178,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
         if (count != 1 && temp != null)
             Toast.makeText(this, "Choose only ONE item to edit", Toast.LENGTH_SHORT).show();
         else {
-            Intent intent = new Intent(FutureActivity.this, EditTraveledActivity.class);
+            Intent intent = new Intent(FutureActivity.this, EditFutureActivity.class);
             Bundle myBundle = new Bundle();
             myBundle.putSerializable("oldLocation", temp);
             intent.putExtras(myBundle);
@@ -201,7 +201,7 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             Log.i("VIEW CLICK", "MAKING BUNDLE");
             Bundle myBundle = new Bundle();
             myBundle.putSerializable("ViewLocation", temp);
-            Intent myIntent = new Intent(FutureActivity.this, ViewTraveledActivity.class);
+            Intent myIntent = new Intent(FutureActivity.this, ViewFutureActivity.class);
             myIntent.putExtras(myBundle);
             startActivityForResult(myIntent, 300);
         }

@@ -61,6 +61,7 @@ public class AddPicturesActivity extends AppCompatActivity {
         add1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("add", "1");
                 Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE1);
             }
@@ -158,6 +159,7 @@ public class AddPicturesActivity extends AppCompatActivity {
                 ImageView imageView = (ImageView) findViewById(R.id.imgView1);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                 picturePath1 = picturePath;
+                Log.i("picturePath1", picturePath1);
             }
             else if (requestCode == RESULT_LOAD_IMAGE2 && resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();

@@ -212,6 +212,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
             putLocation();
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         try {

@@ -40,7 +40,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
         dates           = (Button) findViewById(R.id.dates);
-//        addPictures     = (Button) findViewById(R.id.pictures);
+        addPictures     = (Button) findViewById(R.id.pictures);
 
         myIntent = getIntent();
         myBundle = myIntent.getExtras();
@@ -53,7 +53,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
         done.setOnClickListener(this);
         dates.setOnClickListener(this);
-//        addPictures.setOnClickListener(this);
+        addPictures.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -146,6 +146,18 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
     }
 
     public void pictureClick(){
-
+        Intent intent = new Intent(EditTraveledActivity.this, AddPicturesActivity.class);
+        startActivityForResult(intent, 100);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == 100){
+                Bundle myBundle = data.getExtras();
+            }
+        }
+        catch (Exception e){
+            Log.i("ERROR..","onActivityResult");
+        }
     }
 }

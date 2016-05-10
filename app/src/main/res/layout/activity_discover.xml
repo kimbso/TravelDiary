@@ -56,6 +56,11 @@
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="210dp" />
+    <fragment
+        class="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/mapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -64,7 +69,6 @@
         android:rowCount="2"
         android:orientation="horizontal"
         android:background="@drawable/customborder">
-
         <Button
             android:id="@+id/weather"
             android:text="Weather Forecast"

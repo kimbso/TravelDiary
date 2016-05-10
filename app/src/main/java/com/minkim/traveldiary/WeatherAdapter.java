@@ -30,9 +30,23 @@ public class WeatherAdapter extends ArrayAdapter{
         String descS  = days.get(position).getDesc();
         String humS   = days.get(position).getHum();
         date.setText(dateS);
-        main.setText("***" + mainS + "***");
-        min.setText("The minimum temperature is: " + minS + " degrees.");
-        max.setText("The maximum temperature is: " + maxS + " degrees.");
+        if (mainS.equals("Clouds")) {
+            main.setText(mainS + " " + "\u2601");
+        }
+        else if (mainS.equals("Clear")) {
+            main.setText(mainS + " " + "\u263a");
+        }
+        else if (mainS.equals("Rain")) {
+            main.setText(mainS + " " + "\u2614");
+        }
+        else if (mainS.equals("Snow")) {
+            main.setText(mainS + " " + "\u2744");
+        }
+        else {
+            main.setText(mainS);
+        }
+        min.setText("The minimum temperature is: " + minS + " \u00b0" +"F.");
+        max.setText("The maximum temperature is: " + maxS + " \u00b0" +"F.");
         desc.setText("The prediction for this day is: " + descS + ".");
         hum.setText("The humidity for this day is: " + humS + "%.");
         return rowView;

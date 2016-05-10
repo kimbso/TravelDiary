@@ -155,6 +155,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
     private void createTable() {
         Log.d(getLocalClassName(), "in create table");
+        sampleDB.execSQL("Drop Table " + tableName_future);
         String query = "CREATE TABLE IF NOT EXISTS " + tableName_future +
                 " (City VARCHAR, " +
                 "  Country VARCHAR," +

@@ -77,6 +77,6 @@ public class EditFutureActivity extends Activity implements View.OnClickListener
         String desc  = description.getText().toString();
         ArrayList<String> picArray  = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
-        newLocation = new Location(newCity, desc, favPlaces, picArray);
+        newLocation = new Location(newCity, desc, picArray);
     }
 }

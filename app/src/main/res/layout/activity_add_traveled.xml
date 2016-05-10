@@ -36,7 +36,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:background="@drawable/customborderblue">
         <TextView
@@ -70,27 +70,7 @@
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="68dp" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/customborderblue">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Favorite Places to Go: "
-            android:textColor="#000000"/>
-        <EditText
-            android:id="@+id/favoritePlaces"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="175dp" />
     </LinearLayout>
 
     <TextView

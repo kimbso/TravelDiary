@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created by roseanna on 4/28/16.
  */
 public class AddTraveledActivity extends Activity implements View.OnClickListener{
-    EditText cityText, countryText, favoritePlaces, descriptionT;
+    EditText cityText, countryText, descriptionT;
     TextView dateText;
     Button done, dates, addPictures;
     public Location newLocation;
@@ -53,7 +53,6 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
 
         cityText        = (EditText) findViewById(R.id.cityText);
         countryText     = (EditText) findViewById(R.id.countryText);
-        favoritePlaces  = (EditText) findViewById(R.id.favoritePlaces);
         descriptionT    = (EditText) findViewById(R.id.description);
         dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
@@ -106,9 +105,7 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         String dates                = dateText.getText().toString();
         String description          = descriptionT.getText().toString();
 
-        ArrayList<String> favPlaces = new ArrayList<>();
-        favPlaces.add(favoritePlaces.getText().toString());
-        newLocation = new Location(newCity, description, favPlaces, picArray, dates);
+        newLocation = new Location(newCity, description, picArray, dates);
     }
     public void putLocation(){
         populateLocation();

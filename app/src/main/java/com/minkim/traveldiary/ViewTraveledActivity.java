@@ -19,8 +19,6 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
     Intent myIntent;
     Bundle myBundle;
 
-    ListView list;
-
     ArrayList<String> picArray  = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,6 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
 
         seePictures     = (Button) findViewById(R.id.pictures);
         done            = (Button) findViewById(R.id.done);
-        list            = (ListView) findViewById(R.id.favoritePlaces);
 
         myIntent = getIntent();
         myBundle = myIntent.getExtras();

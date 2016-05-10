@@ -9,31 +9,27 @@ import java.util.*;
 public class Location implements Serializable{
     public City city;
     public String description;
-    public ArrayList<String> favoritePlaces;
     public ArrayList<String> pictures;
     private boolean selected;
     public String dates;
     public Location(City city){
         this.city           = city;
         this.description    = "";
-        this.favoritePlaces = null;
         this.pictures       = null;
         this.dates          = null;
         this.selected       = false;
     }
-    public Location(City city, String description, ArrayList favoritePlaces, ArrayList pictures){
+    public Location(City city, String description, ArrayList pictures){
         this.city           = city;
         this.description    = description;
-        this.favoritePlaces = favoritePlaces;
         this.pictures       = pictures;
         this.dates          = null;
         this.selected       = false;
     }
 
-    public Location(City city, String description, ArrayList favoritePlaces, ArrayList pictures, String dates){
+    public Location(City city, String description, ArrayList pictures, String dates){
         this.city           = city;
         this.description    = description;
-        this.favoritePlaces = favoritePlaces;
         this.pictures       = pictures;
         this.selected       = false;
         this.dates          = dates;
@@ -45,10 +41,6 @@ public class Location implements Serializable{
 
     public String getDescription(){
         return this.description;
-    }
-
-    public ArrayList getFavoritePlaces(){
-        return this.favoritePlaces;
     }
 
     public ArrayList getPictures(){
@@ -64,9 +56,5 @@ public class Location implements Serializable{
     }
     public boolean isSelected(){
         return selected;
-    }
-
-    public void setPictures(ArrayList<String> pictures) {
-        this.pictures = pictures;
     }
 }

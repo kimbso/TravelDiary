@@ -194,7 +194,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
             clean = android.text.Html.fromHtml(extracts).toString();
             while (clean.contains("(") && clean.contains(")")) {
-                int one = clean.indexOf("(");
+                int one = clean.indexOf("(") -1;
                 int two = clean.indexOf(")") + 1;
                 String first = clean.substring(0, one);
                 String end = clean.substring(two, clean.length() - 1);
@@ -226,26 +226,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         // read user's current location, if possible
         // try to get location three ways: GPS, cell/wifi network, and 'passive' mode
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         android.location.Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
         theMap.setMyLocationEnabled(true);

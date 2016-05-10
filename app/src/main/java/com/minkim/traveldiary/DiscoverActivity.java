@@ -110,7 +110,12 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     public void searchClick(){
         cityName = city.getText().toString();
         countryName = country.getText().toString();
-        locationName.setText(cityName + ", " + countryName);
+        if (countryName.equals("")) {
+            locationName.setText(cityName);
+        }
+        else {
+            locationName.setText(cityName + ", " + countryName);
+        }
         CityScrape cs = new CityScrape();
         cs.execute(cityName);
     }

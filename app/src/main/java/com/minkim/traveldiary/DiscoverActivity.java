@@ -57,6 +57,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     Geocoder geocoder = null;
     List<Address> addressList = null;
     private GoogleMap theMap;
+    StringBuffer lName = new StringBuffer();
     private LatLng latLng;
     double lat = 42.6556, lng = -70.6208;
     private LatLng myLocation;
@@ -246,9 +247,8 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             double myLng = loc.getLongitude();
             myLocation = new LatLng(myLat, myLng);
         }
-        //theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
-        //theMap.setMyLocationEnabled(true);
-
+        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
+        theMap.setMyLocationEnabled(true);
     }
 
     public void doClick() {
@@ -256,12 +256,13 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         // Retrieves the EditText
         city = (EditText) findViewById(R.id.city);
         // Retrieves the EditText's text assigns to StringBuffer
-//        locationName.replace(0, locationName.length(), city.getText().toString());
+        lName.replace(0, lName.length(), city.getText().toString());
 
         // Gets one location based on text specified
         try {
-            addressList = geocoder.getFromLocationName(locationName.toString(),1);
+            addressList = geocoder.getFromLocationName(lName.toString(),1);
         } catch (IOException e) {
+            Log.i("address", "address list = null");
             e.printStackTrace();
         }
 
@@ -279,7 +280,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         theMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(city.getText().toString()));
-        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14),
+        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5),
                 3000, null);
     }
 
@@ -287,7 +288,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     public void onMapReady(GoogleMap map) {
         this.theMap = map;
         theMap.setOnMapLoadedCallback(this);      // calls onMapLoaded when layout done
-        //new stuff
         UiSettings mapSettings;
         mapSettings = theMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);

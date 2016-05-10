@@ -1,8 +1,13 @@
 package com.minkim.traveldiary;
 
+import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.location.*;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.*;
 import android.app.*;
@@ -11,6 +16,17 @@ import android.os.*;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,8 +40,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
-public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener{
+public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     String cityName;
     String countryName;
@@ -35,7 +52,14 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     Button search, weather, plane, add, done;
 
     SQLiteDatabase sampleDB;
-    String tableName_future  = "Future";
+    String tableName_future = "Future";
+
+    Geocoder geocoder = null;
+    List<Address> addressList = null;
+    private GoogleMap theMap;
+    private LatLng latLng;
+    double lat = 42.6556, lng = -70.6208;
+    private LatLng myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +68,15 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
         final Intent intent = getIntent();
 
-        city         = (EditText) findViewById(R.id.city);
-        country      = (EditText) findViewById(R.id.country);
+        city = (EditText) findViewById(R.id.city);
+        country = (EditText) findViewById(R.id.country);
         locationName = (TextView) findViewById(R.id.locationName);
-        info         = (TextView) findViewById(R.id.info);
-        search       = (Button)   findViewById(R.id.search);
-        weather      = (Button)   findViewById(R.id.weather);
-        plane        = (Button)   findViewById(R.id.plane);
-        add          = (Button)   findViewById(R.id.add);
-        done         = (Button)   findViewById(R.id.done);
-
-
+        info = (TextView) findViewById(R.id.info);
+        search = (Button) findViewById(R.id.search);
+        weather = (Button) findViewById(R.id.weather);
+//        plane        = (Button)   findViewById(R.id.plane);
+        add = (Button) findViewById(R.id.add);
+        done = (Button) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,33 +90,33 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         try {
             sampleDB = openOrCreateDatabase("TravelDiary", MODE_PRIVATE, null);
             createTable();
-        } catch (SQLiteException se){
+        } catch (SQLiteException se) {
             Log.e(getClass().getSimpleName(), "Couldn't create database");
         }
         search.setOnClickListener(this);
         weather.setOnClickListener(this);
         add.setOnClickListener(this);
 
+        geocoder = new Geocoder(this);
+
+
     }
 
 
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
-            if (requestCode == 100){
+            if (requestCode == 100) {
+            } else if (requestCode == 200) {
             }
-            else if (requestCode == 200){
-            }
-        }
-        catch (Exception e){
-            Log.i("ERROR","onActivityResult");
+        } catch (Exception e) {
+            Log.i("ERROR", "onActivityResult");
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add:
                 addClick();
                 break;
@@ -107,18 +129,19 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void searchClick(){
+    public void searchClick() {
         cityName = city.getText().toString();
         countryName = country.getText().toString();
         if (countryName.equals("")) {
             locationName.setText(cityName);
-        }
-        else {
+        } else {
             locationName.setText(cityName + ", " + countryName);
         }
+        doClick();
         CityScrape cs = new CityScrape();
         cs.execute(cityName);
     }
+
     public void weatherClick() {
         Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
         cityName = city.getText().toString();
@@ -137,18 +160,14 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Please enter a city name", Toast.LENGTH_SHORT).show();
         else {
             ContentValues values = new ContentValues();
-            String cVal     = city.getText().toString();
-            String coVal    = country.getText().toString();
-            String des      = info.getText().toString();
+            String cVal = city.getText().toString();
+            String coVal = country.getText().toString();
+            String des = info.getText().toString();
             values.put("City", cVal);
             values.put("Country", coVal);
             values.put("Description", "Hello");
             Log.i("Insert Data", des);
             sampleDB.insert(tableName_future, null, values);
-//            String query = "Insert into " + tableName_future + "(City, Country, Description)" +
-//                    "values (" + cVal + ", " + coVal + ", " + des + ");";
-//            sampleDB.execSQL(query);
-//            Log.i("query", query)
             Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT).show();
         }
     }
@@ -164,7 +183,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         Log.i("Created Table " + tableName_future, query);
     }
 
-    private String cleanString(String result){
+    private String cleanString(String result) {
         String extracts = result.toString();
         String tag = "\"extract\":\"";
         String clean = "NONE";
@@ -174,30 +193,125 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             extracts = extracts.substring(index + tag.length(), last);
 
             clean = android.text.Html.fromHtml(extracts).toString();
-            while (clean.contains("(") && clean.contains(")")){
+            while (clean.contains("(") && clean.contains(")")) {
                 int one = clean.indexOf("(");
                 int two = clean.indexOf(")") + 1;
-                String first = clean.substring(0,one);
-                String end   = clean.substring(two, clean.length()-1);
+                String first = clean.substring(0, one);
+                String end = clean.substring(two, clean.length() - 1);
                 return first.concat(end);
             }
         }
         return clean;
     }
 
-    private String firstSentence(String text){
+    private String firstSentence(String text) {
         int index = text.indexOf(". ");
-        if (String.valueOf(text.charAt(index+2)).equals(String.valueOf(text.charAt(index+2)).toUpperCase()))
-            return text.substring(0, index+1);
+        if (String.valueOf(text.charAt(index + 2)).equals(String.valueOf(text.charAt(index + 2)).toUpperCase()))
+            return text.substring(0, index + 1);
         else
-            return text.substring(0, index+2) + firstSentence(text.substring(index+2));
+            return text.substring(0, index + 2) + firstSentence(text.substring(index + 2));
     }
 
-    private void setDescription(String description){
+    private void setDescription(String description) {
         if (description.equals("NONE"))
             Toast.makeText(this, "Try a different city", Toast.LENGTH_SHORT).show();
         else
             info.setText(description);
+    }
+
+    @Override
+    public void onMapLoaded() {
+        // code to run when the map has loaded
+
+        // read user's current location, if possible
+        // try to get location three ways: GPS, cell/wifi network, and 'passive' mode
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        android.location.Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
+        theMap.setMyLocationEnabled(true);
+
+        if (loc == null) {
+            // fall back to network if GPS is not available
+            loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if (loc == null) {
+            // fall back to "passive" location if GPS and network are not available
+            loc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        }
+        if (loc == null) {
+            myLocation = new LatLng(lat, lng);
+            Toast.makeText(this, "Unable to access your location. Consider enabling Location in your device's Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            double myLat = loc.getLatitude();
+            double myLng = loc.getLongitude();
+            myLocation = new LatLng(myLat, myLng);
+        }
+        //theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
+        //theMap.setMyLocationEnabled(true);
+
+    }
+
+    public void doClick() {
+
+        // Retrieves the EditText
+        city = (EditText) findViewById(R.id.city);
+        // Retrieves the EditText's text assigns to StringBuffer
+//        locationName.replace(0, locationName.length(), city.getText().toString());
+
+        // Gets one location based on text specified
+        try {
+            addressList = geocoder.getFromLocationName(locationName.toString(),1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // if there is an address get long/lat
+        if (addressList != null && addressList.size() > 0) {
+            lat = (double) (addressList.get(0).getLatitude());
+            lng = (double) (addressList.get(0).getLongitude());
+        }
+        if (theMap == null) {
+            theMap = ((MapFragment) getFragmentManager().findFragmentById(
+                    R.id.mapFragment)).getMap();
+        }
+        latLng = new LatLng(lat, lng);
+        // puts waterfall icon at location
+        theMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(city.getText().toString()));
+        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14),
+                3000, null);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        this.theMap = map;
+        theMap.setOnMapLoadedCallback(this);      // calls onMapLoaded when layout done
+        //new stuff
+        UiSettings mapSettings;
+        mapSettings = theMap.getUiSettings();
+        mapSettings.setZoomControlsEnabled(true);
+        theMap.setMyLocationEnabled(true);
     }
 
     private class CityScrape extends AsyncTask<String, String, String> {

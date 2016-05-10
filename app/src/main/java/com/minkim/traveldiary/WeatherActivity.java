@@ -38,7 +38,12 @@ public class WeatherActivity extends AppCompatActivity {
         list         = (ListView) findViewById(R.id.list);
         done         = (Button)   findViewById(R.id.done);
 
-        locationName.setText(cityName + ", " + countryName);
+        if (countryName.equals("")) {
+            locationName.setText(cityName);
+        }
+        else {
+            locationName.setText(cityName + ", " + countryName);
+        }
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override

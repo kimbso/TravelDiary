@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -46,6 +47,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
     String cityName;
     String countryName;
+    String searchName;
 
     EditText city, country;
     TextView locationName, info;
@@ -55,13 +57,11 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     String tableName_future = "Future";
 
     Geocoder geocoder = null;
-    List<Address> addressList = null;
     private GoogleMap theMap;
-    StringBuffer lName = new StringBuffer();
     private LatLng latLng;
     double lat = 42.6556, lng = -70.6208;
     private LatLng myLocation;
-
+    Marker marker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,12 +135,17 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         countryName = country.getText().toString();
         if (countryName.equals("")) {
             locationName.setText(cityName);
-        } else {
+            searchName = cityName.replace(" ", "_");
+        } else if (cityName.equals("")) {
+            locationName.setText(countryName);
+            searchName = countryName.replace(" ", "_");
+        } else{
             locationName.setText(cityName + ", " + countryName);
+            searchName = cityName.replace(" ", "_") + ",_" + countryName.replace(" ", "_");
         }
         doClick();
         CityScrape cs = new CityScrape();
-        cs.execute(cityName);
+        cs.execute(searchName);
     }
 
     public void weatherClick() {
@@ -252,32 +257,12 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void doClick() {
-
-        // Retrieves the EditText
-        city = (EditText) findViewById(R.id.city);
-        // Retrieves the EditText's text assigns to StringBuffer
-        lName.replace(0, lName.length(), city.getText().toString());
-
-        // Gets one location based on text specified
-        try {
-            addressList = geocoder.getFromLocationName(lName.toString(),1);
-        } catch (IOException e) {
-            Log.i("address", "address list = null");
-            e.printStackTrace();
-        }
-
-        // if there is an address get long/lat
-        if (addressList != null && addressList.size() > 0) {
-            lat = (double) (addressList.get(0).getLatitude());
-            lng = (double) (addressList.get(0).getLongitude());
-        }
-        if (theMap == null) {
-            theMap = ((MapFragment) getFragmentManager().findFragmentById(
-                    R.id.mapFragment)).getMap();
-        }
+        Log.i(String.valueOf(lat), String.valueOf(lng));
+        if (theMap == null)
+            theMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
         latLng = new LatLng(lat, lng);
         // puts waterfall icon at location
-        theMap.addMarker(new MarkerOptions()
+        marker = theMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(city.getText().toString()));
         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5),
@@ -294,10 +279,28 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         theMap.setMyLocationEnabled(true);
     }
 
+    private String getCoordinates(String text){
+        String tag1 = "\"lat\":";
+        String tag2 = "\"lon\":";
+        String latC, lonC;
+        if (text.contains(tag1) && text.contains(tag2)){
+            latC = text.substring(text.indexOf(tag1)+tag1.length(), text.indexOf(tag2)-1);
+            String sub = text.substring(text.indexOf(tag2));
+            lonC = sub.substring(sub.indexOf(tag2)+tag2.length(), sub.indexOf(","));
+            Log.i(lonC, latC);
+            lat = Double.valueOf(latC);
+            lng = Double.valueOf(lonC);
+            return latC;
+        }
+        return "he";
+    }
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
-        StringBuilder result = new StringBuilder();
+        StringBuilder result        = new StringBuilder();
+        StringBuilder coordResult   = new StringBuilder();
         String description;
+        String location;
+        String lat;
         protected void onPreExecute() {
             progressDialog.setMessage("Downloading your data...");
             progressDialog.show();
@@ -309,26 +312,41 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 //            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
 //                    + "&types=(cities)&key=" + apiKey;
             String jsonUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&titles=" + params[0];
+            String coordURL = "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=" + params[0];
+
             Log.i("URL", jsonUrl);
+            Log.i("coordURL", coordURL);
             try {
                 URL url = new URL(jsonUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                InputStream in                  = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader reader           = new BufferedReader(new InputStreamReader(in));
 
                 String line;
                 while ((line = reader.readLine()) != null){
-                    Log.i("line", line);
                     result.append(line);
                 }
-                description = cleanString(result.toString());
-                if (description == "NONE"){
-                    Log.i("no extract", "fuck");
-                }else {
-                    description = firstSentence(description);
-                    Log.i("description", description);
-                }
 
+                description = cleanString(result.toString());
+                if (description == "NONE")
+                    description = "Choose a different city";
+                else
+                    description = firstSentence(description);
+
+                URL coords = new URL(coordURL);
+                HttpURLConnection con = (HttpURLConnection) coords.openConnection();
+                InputStream input     = new BufferedInputStream(con.getInputStream());
+                BufferedReader read   = new BufferedReader(new InputStreamReader(input));
+
+                String line2;
+                while ((line2 = read.readLine()) != null){
+                    Log.i("line", line2);
+                    coordResult.append(line2);
+                }
+                Log.i("coord", coordResult.toString());
+                location = coordResult.toString();
+                lat = getCoordinates(location);
+                Log.i("lat", lat);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -340,6 +358,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String result){
             progressDialog.dismiss();
             setDescription(description);
+            doClick();
         }
     }
 

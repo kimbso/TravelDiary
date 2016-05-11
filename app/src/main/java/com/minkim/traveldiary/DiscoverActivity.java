@@ -201,7 +201,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             extracts = extracts.substring(index + tag.length(), last);
 
             clean = android.text.Html.fromHtml(extracts).toString();
-//            clean = removePar(clean);
             clean = firstSentence(clean);
             while (clean.contains("(") && clean.contains(")")) {
                 int one = clean.indexOf("(") -1;

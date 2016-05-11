@@ -41,6 +41,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
@@ -262,6 +263,8 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             theMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
         latLng = new LatLng(lat, lng);
         // puts waterfall icon at location
+        if(marker != null)
+            marker.remove();
         marker = theMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(city.getText().toString()));
@@ -279,7 +282,8 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         theMap.setMyLocationEnabled(true);
     }
 
-    private String getCoordinates(String text){
+    private ArrayList getCoordinates(String text){
+        ArrayList c = new ArrayList();
         String tag1 = "\"lat\":";
         String tag2 = "\"lon\":";
         String latC, lonC;
@@ -288,11 +292,11 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             String sub = text.substring(text.indexOf(tag2));
             lonC = sub.substring(sub.indexOf(tag2)+tag2.length(), sub.indexOf(","));
             Log.i(lonC, latC);
-            lat = Double.valueOf(latC);
-            lng = Double.valueOf(lonC);
-            return latC;
+            c.add(Double.valueOf(latC));
+            c.add(Double.valueOf(lonC));
+            return c;
         }
-        return "he";
+        return null;
     }
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
@@ -300,7 +304,8 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         StringBuilder coordResult   = new StringBuilder();
         String description;
         String location;
-        String lat;
+
+        ArrayList<Double> c         = new ArrayList<>();
         protected void onPreExecute() {
             progressDialog.setMessage("Downloading your data...");
             progressDialog.show();
@@ -340,13 +345,10 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
                 String line2;
                 while ((line2 = read.readLine()) != null){
-                    Log.i("line", line2);
                     coordResult.append(line2);
                 }
-                Log.i("coord", coordResult.toString());
                 location = coordResult.toString();
-                lat = getCoordinates(location);
-                Log.i("lat", lat);
+                c = getCoordinates(location);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -358,7 +360,11 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String result){
             progressDialog.dismiss();
             setDescription(description);
-            doClick();
+            if (c != null) {
+                lat = c.get(0);
+                lng = c.get(1);
+                doClick();
+            }
         }
     }
 

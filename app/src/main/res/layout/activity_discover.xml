@@ -21,22 +21,22 @@
         <EditText
             android:id="@+id/city"
             android:layout_width="wrap_content"
-            android:hint="City"/>
+            android:hint="City or State"/>
         <EditText
             android:id="@+id/country"
             android:layout_width="wrap_content"
             android:hint="Country"/>
         <Button
             android:id="@+id/search"
-            android:text="Search" />
-        
+            android:text="Search"
+            android:layout_gravity="right"/>
     </GridLayout>
 
     <TextView
         android:id="@+id/locationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="City, Country"
+        android:text="Location"
         android:gravity="center"
         android:textSize="25sp"
         android:textColor="#000000"

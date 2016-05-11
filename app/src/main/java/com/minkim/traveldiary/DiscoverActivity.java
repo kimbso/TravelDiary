@@ -191,6 +191,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private String cleanString(String result) {
+        result = result.replace("\\n", "");
         String extracts = result.toString();
         String tag = "\"extract\":\"";
         String clean = "NONE";
@@ -200,23 +201,31 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             extracts = extracts.substring(index + tag.length(), last);
 
             clean = android.text.Html.fromHtml(extracts).toString();
+//            clean = removePar(clean);
+            clean = firstSentence(clean);
             while (clean.contains("(") && clean.contains(")")) {
                 int one = clean.indexOf("(") -1;
-                int two = clean.indexOf(")") + 1;
+                int two = clean.lastIndexOf(")") + 1;
                 String first = clean.substring(0, one);
                 String end = clean.substring(two, clean.length() - 1);
+                Log.i(first, end);
                 return first.concat(end);
             }
         }
         return clean;
     }
 
+
     private String firstSentence(String text) {
-        int index = text.indexOf(". ");
-        if (String.valueOf(text.charAt(index + 2)).equals(String.valueOf(text.charAt(index + 2)).toUpperCase()))
-            return text.substring(0, index + 1);
-        else
-            return text.substring(0, index + 2) + firstSentence(text.substring(index + 2));
+        Log.i("text", text);
+        if (text.contains(". ")) {
+            int index = text.indexOf(". ");
+            if (String.valueOf(text.charAt(index + 2)).equals(String.valueOf(text.charAt(index + 2)).toUpperCase()))
+                return text.substring(0, index + 1);
+            else
+                return text.substring(0, index + 2) + firstSentence(text.substring(index + 2));
+        }
+        return text;
     }
 
     private void setDescription(String description) {
@@ -230,29 +239,9 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     public void onMapLoaded() {
         // code to run when the map has loaded
 
-        // read user's current location, if possible
-        // try to get location three ways: GPS, cell/wifi network, and 'passive' mode
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        android.location.Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
         theMap.setMyLocationEnabled(true);
-
-        if (loc == null) {
-            // fall back to network if GPS is not available
-            loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
-        if (loc == null) {
-            // fall back to "passive" location if GPS and network are not available
-            loc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        }
-        if (loc == null) {
-            myLocation = new LatLng(lat, lng);
-            Toast.makeText(this, "Unable to access your location. Consider enabling Location in your device's Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            double myLat = loc.getLatitude();
-            double myLng = loc.getLongitude();
-            myLocation = new LatLng(myLat, myLng);
-        }
         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
         theMap.setMyLocationEnabled(true);
     }

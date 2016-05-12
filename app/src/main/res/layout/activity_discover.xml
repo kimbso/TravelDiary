@@ -20,12 +20,8 @@
         <EditText
             android:id="@+id/city"
             android:layout_width="wrap_content"
-            android:hint="City or State"
-            android:layout_columnWeight="1" />
-        <EditText
-            android:id="@+id/country"
-            android:layout_width="wrap_content"
-            android:hint="Country"
+            android:hint="City, State, Country"
+            android:textAlignment="center"
             android:layout_columnWeight="1" />
         <Button
             android:id="@+id/search"
@@ -34,15 +30,6 @@
             android:layout_columnWeight=".5" />
     </GridLayout>
 
-    <TextView
-        android:id="@+id/locationName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:textColor="#000000"
-        android:paddingTop="10dp"/>
 
     <TextView
         android:id="@+id/info"

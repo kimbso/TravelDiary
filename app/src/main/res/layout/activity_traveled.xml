@@ -28,7 +28,7 @@
             android:text="  TRAVELED"
             android:textSize="30sp"
             android:gravity="left"
-            android:textColor="#262e75"/>
+            android:textColor="#35812e"/>
     </LinearLayout>
 
 
@@ -40,7 +40,7 @@
         android:layout_height="380dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="#9797b0"></ListView>
+        android:backgroundTint="#dd35812e"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,37 +52,37 @@
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#2e3781"
+            android:background="#ad35812e"
             android:layout_margin="2dp"
             android:text="Add"
-            android:textColor="#9797b0" />
+            android:textColor="#f0000000" />
 
         <Button
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#2e3781"
+            android:background="#cc35812e"
             android:layout_margin="2dp"
             android:text="Del"
-            android:textColor="#9797b0" />
+            android:textColor="#c0000000" />
 
         <Button
             android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#2e3781"
+            android:background="#df35812e"
             android:layout_margin="2dp"
             android:text="Edit"
-            android:textColor="#9797b0" />
+            android:textColor="#90000000" />
 
         <Button
             android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#2e3781"
+            android:background="#ff35812e"
             android:layout_margin="2dp"
             android:text="View"
-            android:textColor="#9797b0" />
+            android:textColor="#90000000" />
     </LinearLayout>
 
 </LinearLayout>

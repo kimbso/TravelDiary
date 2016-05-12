@@ -27,12 +27,12 @@
             android:text="FUTURE"
             android:textSize="30sp"
             android:gravity="center"
-            android:textColor="#262e75"/>
+            android:textColor="#ffdf9a1b"/>
     </LinearLayout>
 
 
     <ListView
-        android:background="@drawable/customborder1"
+        android:background="@drawable/customborderorange"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/move"
-        android:background="#4754c2"
+        android:background="#afdf9a1b"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
@@ -57,7 +57,7 @@
             android:id="@+id/add"
             android:layout_margin="1dp"
             android:textColor="#c50e0e0e"
-            android:background="#782e3781"
+            android:background="#abdf9a1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"/>
@@ -66,7 +66,7 @@
             android:id="@+id/delete"
             android:layout_margin="1dp"
             android:textColor="#b10e0e0e"
-            android:background="#8a2e3781"
+            android:background="#bcdf9a1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"/>
@@ -75,7 +75,7 @@
             android:id="@+id/edit"
             android:layout_margin="1dp"
             android:textColor="#810e0e0e"
-            android:background="#bf2e3781"
+            android:background="#dcdf9a1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"/>
@@ -84,7 +84,7 @@
             android:id="@+id/view"
             android:layout_margin="1dp"
             android:textColor="#560e0e0e"
-            android:background="#2e3781"
+            android:background="#ffdf9a1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View"/>

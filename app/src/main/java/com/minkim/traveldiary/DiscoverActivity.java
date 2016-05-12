@@ -156,7 +156,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
             String cVal = city.getText().toString();
             String des = info.getText().toString();
             values.put("City", cVal);
-            values.put("Description", "Hello");
+            values.put("Description", info.getText().toString());
             Log.i("Insert Data", des);
             sampleDB.insert(tableName_future, null, values);
             Toast.makeText(this, "Activity added to Future Activities", Toast.LENGTH_SHORT).show();

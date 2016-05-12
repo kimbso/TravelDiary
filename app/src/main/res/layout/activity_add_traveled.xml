@@ -21,36 +21,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:hint="City"
-            android:textColorHint="#9797b0" />
-        <EditText
-            android:id="@+id/countryText"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#262e75"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:hint="Country"
+            android:hint="Location"
             android:textColorHint="#9797b0" />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="@drawable/customborderblue">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dates in Location: "
             android:textColor="#262e75"
-            android:paddingRight="50dp"/>
+            android:paddingRight="100dp"/>
         <Button
             android:id="@+id/dates"
-            android:text="Dates"
+            android:text="Choose Dates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#262e75" />
@@ -73,7 +62,7 @@
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="175dp" />
+            android:layout_height="200dp" />
     </LinearLayout>
 
     <TextView
@@ -84,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/customborderblue">
+        android:layout_gravity="bottom">
         <Button
             android:id="@+id/pictures"
             android:layout_width="match_parent"

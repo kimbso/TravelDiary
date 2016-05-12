@@ -149,8 +149,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         CityScrape cs = new CityScrape();
         cs.execute(searchName);
 
-        FlightScrape fs = new FlightScrape();
-        fs.execute();
     }
 
     public void weatherClick() {
@@ -290,7 +288,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         }
         return null;
     }
-    
+
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
         StringBuilder result        = new StringBuilder();
@@ -306,9 +304,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected String doInBackground(String... params) {
-//            String apiKey = "AIzaSyAIXAmqOusAIK5-bUpYQrz837jXwbBQlTI";
-//            String jsonUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+ params[0]
-//                    + "&types=(cities)&key=" + apiKey;
             String jsonUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&titles=" + params[0];
             String coordURL = "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=" + params[0];
 

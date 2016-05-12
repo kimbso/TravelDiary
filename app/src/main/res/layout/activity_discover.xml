@@ -16,20 +16,22 @@
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:rowCount="1"
-        android:orientation="vertical"
-        android:background="@drawable/customborder">
+        android:orientation="vertical">
         <EditText
             android:id="@+id/city"
             android:layout_width="wrap_content"
-            android:hint="City or State"/>
+            android:hint="City or State"
+            android:layout_columnWeight="1" />
         <EditText
             android:id="@+id/country"
             android:layout_width="wrap_content"
-            android:hint="Country"/>
+            android:hint="Country"
+            android:layout_columnWeight="1" />
         <Button
             android:id="@+id/search"
             android:text="Search"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:layout_columnWeight=".5" />
     </GridLayout>
 
     <TextView
@@ -45,12 +47,11 @@
     <TextView
         android:id="@+id/info"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="70dp" />
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mapFragment"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_gravity="top"
@@ -61,31 +62,28 @@
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:rowCount="1"
-        android:orientation="horizontal"
-        android:background="@drawable/customborder">
+        android:orientation="horizontal">
         <Button
             android:id="@+id/weather"
             android:text="Weather"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+
+            android:layout_columnWeight="1" />
 
         <Button
             android:id="@+id/add"
-            android:text="Add to Future List"
+            android:text="Visit Soon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <!--<Button-->
-            <!--android:id="@+id/plane"-->
-            <!--android:text="Plane Tickets"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="2" />
 
         <Button
             android:id="@+id/done"
             android:text="Done"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="3" />
 
     </GridLayout>
 

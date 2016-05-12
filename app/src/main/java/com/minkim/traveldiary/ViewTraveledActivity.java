@@ -38,20 +38,15 @@ public class ViewTraveledActivity extends Activity implements View.OnClickListen
         Location currentLocation = (Location) myBundle.get("ViewLocation");
 
         if(currentLocation != null) {
-            Log.i("CURRENT LOCATION", currentLocation.getCity().getCity());
+            Log.i("CURRENT LOCATION", currentLocation.getLocation());
 //            Consider deleting favorite places
 //            ArrayList<String> placeArray = currentLocation.getFavoritePlaces();
 //            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, placeArray);
 //            list.setAdapter(adapter);
 
-            String city = currentLocation.getCity().getCity();
-            String country = currentLocation.getCity().getCountry();
+            String city = currentLocation.getLocation();
             picArray = currentLocation.getPictures();
-            if (country.equals("")){
-                locationText.setText(city);
-            }
-            else
-                locationText.setText(city + ", " + country);
+            locationText.setText(city);
             descriptionT.setText(currentLocation.getDescription());
             dates.setText(currentLocation.getDates());
         }

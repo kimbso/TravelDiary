@@ -29,12 +29,14 @@ public class ViewFutureActivity extends Activity implements View.OnClickListener
         Location currentLocation = (Location) myBundle.get("ViewLocation");
 
         if(currentLocation != null) {
-            Log.i("CURRENT LOCATION", currentLocation.getCity().getCity());
+            Log.i("CURRENT LOCATION", currentLocation.getLocation());
 
-            String city = currentLocation.getCity().getCity();
-            String country = currentLocation.getCity().getCountry();
-            locationText.setText(city + ", " + country);
-            description.setText(currentLocation.getDescription());
+            String city = currentLocation.getLocation();
+            locationText.setText(city);
+            if(currentLocation.getDescription().equals(""))
+                description.setText("No current description. Please edit to add new description");
+            else
+                description.setText(currentLocation.getDescription());
 
             done.setOnClickListener(new View.OnClickListener() {
                 @Override

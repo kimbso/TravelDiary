@@ -48,21 +48,19 @@ import java.util.List;
 public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     String cityName;
-    String countryName;
     String searchName;
 
-    EditText city, country;
+    EditText city;
     TextView locationName, info;
-    Button search, weather, plane, add, done;
+    Button search, weather, add, done;
 
     SQLiteDatabase sampleDB;
     String tableName_future = "Future";
 
     Geocoder geocoder = null;
     private GoogleMap theMap;
-    private LatLng latLng;
+    private LatLng latLng, myLocation;
     double lat = 42.6556, lng = -70.6208;
-    private LatLng myLocation;
     Marker marker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +70,10 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         final Intent intent = getIntent();
 
         city = (EditText) findViewById(R.id.city);
-        country = (EditText) findViewById(R.id.country);
         locationName = (TextView) findViewById(R.id.locationName);
         info = (TextView) findViewById(R.id.info);
         search = (Button) findViewById(R.id.search);
         weather = (Button) findViewById(R.id.weather);
-//        plane        = (Button)   findViewById(R.id.plane);
         add = (Button) findViewById(R.id.add);
         done = (Button) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -134,17 +130,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
 
     public void searchClick() {
         cityName = city.getText().toString();
-        countryName = country.getText().toString();
-        if (countryName.equals("")) {
-            locationName.setText(cityName);
-            searchName = cityName.replace(" ", "_");
-        } else if (cityName.equals("")) {
-            locationName.setText(countryName);
-            searchName = countryName.replace(" ", "_");
-        } else{
-            locationName.setText(cityName + ", " + countryName);
-            searchName = cityName.replace(" ", "_") + ",_" + countryName.replace(" ", "_");
-        }
+        searchName = cityName.replace(" ", "_");
         doClick();
         CityScrape cs = new CityScrape();
         cs.execute(searchName);
@@ -154,11 +140,9 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
     public void weatherClick() {
         Intent intent = new Intent(DiscoverActivity.this, WeatherActivity.class);
         cityName = city.getText().toString();
-        countryName = country.getText().toString();
         if (!cityName.equals("")) {
             Bundle myData = new Bundle();
             myData.putString("cityName", cityName);
-            myData.putString("countryName", countryName);
             intent.putExtras(myData);
             startActivityForResult(intent, 100);
         }
@@ -170,10 +154,8 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         else {
             ContentValues values = new ContentValues();
             String cVal = city.getText().toString();
-            String coVal = country.getText().toString();
             String des = info.getText().toString();
             values.put("City", cVal);
-            values.put("Country", coVal);
             values.put("Description", "Hello");
             Log.i("Insert Data", des);
             sampleDB.insert(tableName_future, null, values);
@@ -186,7 +168,6 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         sampleDB.execSQL("Drop Table " + tableName_future);
         String query = "CREATE TABLE IF NOT EXISTS " + tableName_future +
                 " (City VARCHAR, " +
-                "  Country VARCHAR," +
                 "  Description VARCHAR);";
         sampleDB.execSQL(query);
         Log.i("Created Table " + tableName_future, query);

@@ -37,11 +37,10 @@ import java.util.Locale;
  * Created by roseanna on 4/28/16.
  */
 public class AddTraveledActivity extends Activity implements View.OnClickListener{
-    EditText cityText, countryText, descriptionT;
+    EditText cityText, descriptionT;
     TextView dateText;
     Button done, dates, addPictures;
     public Location newLocation;
-    public City newCity;
     ArrayList<String> picArray  = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
             picArray.add("");
 
         cityText        = (EditText) findViewById(R.id.cityText);
-        countryText     = (EditText) findViewById(R.id.countryText);
         descriptionT    = (EditText) findViewById(R.id.description);
         dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
@@ -87,29 +85,23 @@ public class AddTraveledActivity extends Activity implements View.OnClickListene
         if(!cityText.getText().toString().equals("")) {
             String city     = cityText.getText().toString();
             Log.i("City", city);
-            String country  = countryText.getText().toString();
             putLocation();
         }
         else
-            Toast.makeText(this, "Please enter a city", Toast.LENGTH_SHORT).show();
-
-//        CityScrape cs = new CityScrape();
-//        cs.execute(city);
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
     }
 
     public void populateLocation(){
         String city = cityText.getText().toString();
-        String country = countryText.getText().toString();
-        newCity = new City(city, country);
 
         String dates                = dateText.getText().toString();
         String description          = descriptionT.getText().toString();
 
-        newLocation = new Location(newCity, description, picArray, dates);
+        newLocation = new Location(city, description, picArray, dates);
     }
     public void putLocation(){
         populateLocation();
-        Log.i("populate", newLocation.getCity().getCity());
+        Log.i("populate", newLocation.getLocation());
         final Intent myIntent   = getIntent();
         Bundle myBundle         = new Bundle();
         myBundle.putSerializable("Location", newLocation);

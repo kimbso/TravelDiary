@@ -18,14 +18,13 @@ import java.util.Locale;
 
 public class EditFutureActivity extends Activity implements View.OnClickListener {
 
-    EditText cityText, countryText, description;
+    EditText cityText, description;
     Button done;
 
     Intent myIntent;
     Bundle myBundle;
 
     public Location newLocation;
-    public City newCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class EditFutureActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_edit_future);
 
         cityText = (EditText) findViewById(R.id.cityText);
-        countryText = (EditText) findViewById(R.id.countryText);
         description = (EditText) findViewById(R.id.description);
         done = (Button) findViewById(R.id.done);
 
@@ -41,8 +39,7 @@ public class EditFutureActivity extends Activity implements View.OnClickListener
         myBundle = myIntent.getExtras();
         Location oldLocation = (Location) myBundle.get("oldLocation");
 
-        cityText.setText(oldLocation.getCity().getCity());
-        countryText.setText(oldLocation.getCity().getCountry());
+        cityText.setText(oldLocation.getLocation());
         description.setText(oldLocation.getDescription());
 
         done.setOnClickListener(this);
@@ -62,7 +59,7 @@ public class EditFutureActivity extends Activity implements View.OnClickListener
         getNew();
         myIntent = getIntent();
         myBundle = new Bundle();
-        Log.i("edit", newLocation.getCity().getCity());
+        Log.i("edit", newLocation.getLocation());
         myBundle.putSerializable("Edit", newLocation);
         myIntent.putExtras(myBundle);
         setResult(Activity.RESULT_OK, myIntent);
@@ -71,12 +68,10 @@ public class EditFutureActivity extends Activity implements View.OnClickListener
 
     public void getNew(){
         String city         = cityText.getText().toString();
-        String country      = countryText.getText().toString();
 
-        newCity             = new City(city, country);
         String desc  = description.getText().toString();
         ArrayList<String> picArray  = new ArrayList<>();
         ArrayList<String> favPlaces = new ArrayList<>();
-        newLocation = new Location(newCity, desc, picArray);
+        newLocation = new Location(city, desc, picArray);
     }
 }

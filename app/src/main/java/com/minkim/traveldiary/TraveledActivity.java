@@ -215,7 +215,6 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
         Log.d(getLocalClassName(), "in create table");
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName +
                 " (City VARCHAR, " +
-                "  Country VARCHAR, " +
                 "  Description VARCHAR);");
 
         Log.i("Created Table", "Done");
@@ -224,16 +223,13 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
     // checks if anything has been moved from future activities
     public void updateList(){
         Log.i("update", "list");
-        cursor = sampleDB.rawQuery("SELECT City, Country, Description FROM " + tableName , null);
+        cursor = sampleDB.rawQuery("SELECT City, Description FROM " + tableName , null);
         if(cursor != null) {
             for(int i = 0; i < cursor.getCount(); i++){
                 cursor.moveToPosition(i);
                 String cityVal          = cursor.getString(cursor.getColumnIndex("City"));
-                String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
                 String description      = cursor.getString(cursor.getColumnIndex("Description"));
-                City newCity            = new City(cityVal, countryVal);
-                Log.i(cityVal, countryVal);
-                Location newLocation    = new Location(newCity, description, null, null);
+                Location newLocation    = new Location(cityVal, description, null, null);
                 locationArrayList.add(newLocation);
             }
             cursor.close();
@@ -283,12 +279,10 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 currentLocation         = newLocation;
 
                 String description      = newLocation.getDescription();
-                String cityName         = newLocation.getCity().getCity();
-                String countryN         = newLocation.getCity().getCountry();
+                String cityName         = newLocation.getLocation();
                 String dates            = newLocation.getDates();
 
                 Log.i("City from add", cityName);
-                Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
                 Log.i("Dates from add", dates);
             }
@@ -299,12 +293,10 @@ public class TraveledActivity extends Activity implements View.OnClickListener {
                 editLocation = (Location) myBundle.get("Edit");
                 Log.i("edit location", editLocation.toString());
                 String description      = editLocation.getDescription();
-                String cityName         = editLocation.getCity().getCity();
-                String countryN         = editLocation.getCity().getCountry();
+                String cityName         = editLocation.getLocation();
                 String dates            = editLocation.getDates();
 
                 Log.i("City from edit", cityName);
-                Log.i("Country from edit", countryN);
                 Log.i("Description from edit", description);
                 Log.i("Dates from edit", dates);
             }

@@ -23,17 +23,7 @@ public class CheckBoxAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(R.layout.checkboxrow, parent, false);
         final CheckBox cb = (CheckBox) rowView.findViewById(R.id.checkbox);
 
-        String city = locations.get(position).getCity().getCity();
-        String country = locations.get(position).getCity().getCountry();
-
-        if (!country.equals("")) {
-            cb.setText(locations.get(position).getCity().getCity() + ", " +
-                    locations.get(position).getCity().getCountry());
-        }
-
-        else {
-            cb.setText(locations.get(position).getCity().getCity());
-        }
+        cb.setText(locations.get(position).getLocation());
 
         cb.setOnClickListener(new View.OnClickListener() {
             @Override

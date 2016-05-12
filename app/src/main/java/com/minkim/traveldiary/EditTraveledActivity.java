@@ -20,14 +20,13 @@ import java.util.Locale;
  * Created by roseanna on 5/4/16.
  */
 public class EditTraveledActivity extends Activity  implements View.OnClickListener{
-    EditText cityText, countryText, favoritePlaces, descriptionT;
+    EditText cityText, favoritePlaces, descriptionT;
     TextView dateText;
     Button done, dates, addPictures;
     Intent myIntent;
     Bundle myBundle;
 
     public Location newLocation;
-    public City newCity;
 
     ArrayList<String> picArray  = new ArrayList<>();
 
@@ -36,7 +35,6 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         setContentView(R.layout.activity_add_traveled);
 
         cityText        = (EditText) findViewById(R.id.cityText);
-        countryText     = (EditText) findViewById(R.id.countryText);
         descriptionT    = (EditText) findViewById(R.id.description);
         dateText        = (TextView) findViewById(R.id.dateText);
         done            = (Button) findViewById(R.id.done);
@@ -49,8 +47,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
         picArray = oldLocation.getPictures();
 
-        cityText.setText(oldLocation.getCity().getCity());
-        countryText.setText(oldLocation.getCity().getCountry());
+        cityText.setText(oldLocation.getLocation());
         descriptionT.setText(oldLocation.getDescription());
         dateText.setText(oldLocation.getDates());
 
@@ -79,7 +76,7 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         getNew();
         myIntent = getIntent();
         myBundle = new Bundle();
-        Log.i("edit", newLocation.getCity().getCity());
+        Log.i("edit", newLocation.getLocation());
         myBundle.putSerializable("Edit", newLocation);
         myIntent.putExtras(myBundle);
         setResult(Activity.RESULT_OK, myIntent);
@@ -88,14 +85,12 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
 
     public void getNew(){
         String city         = cityText.getText().toString();
-        String country      = countryText.getText().toString();
         String date         = dateText.getText().toString();
 
-        newCity             = new City(city, country);
         String description  = descriptionT.getText().toString();
         ArrayList<String> favPlaces = new ArrayList<>();
 //        favPlaces.add(favoritePlaces.getText().toString());
-        newLocation = new Location(newCity, description, picArray, date);
+        newLocation = new Location(city, description, picArray, date);
     }
 
     Calendar myCalendar = Calendar.getInstance();

@@ -16,7 +16,7 @@ import java.util.*;
 
 public class AddFutureActivity extends Activity implements View.OnClickListener {
 
-    EditText cityText, countryText, description;
+    EditText cityText, description;
     Button done;
     Location newLocation;
     @Override
@@ -26,7 +26,6 @@ public class AddFutureActivity extends Activity implements View.OnClickListener 
 
         description = (EditText) findViewById(R.id.description);
         cityText    = (EditText) findViewById(R.id.cityText);
-        countryText = (EditText) findViewById(R.id.countryText);
         done        = (Button)   findViewById(R.id.done);
 
         description.setOnClickListener(this);
@@ -46,10 +45,7 @@ public class AddFutureActivity extends Activity implements View.OnClickListener 
 
     public void populateLocation(){
         String city = cityText.getText().toString();
-        String country = countryText.getText().toString();
-
-        City newCity = new City(city, country);
-        newLocation = new Location(newCity, description.getText().toString(), null, null);
+        newLocation = new Location(city, description.getText().toString(), null, null);
     }
     public void done() {
         if(!cityText.getText().toString().equals("")) {
@@ -62,6 +58,6 @@ public class AddFutureActivity extends Activity implements View.OnClickListener 
             finish();
         }
         else
-            Toast.makeText(this, "Please enter a city", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
     }
 }

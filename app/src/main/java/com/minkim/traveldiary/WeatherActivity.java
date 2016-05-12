@@ -18,7 +18,6 @@ public class WeatherActivity extends AppCompatActivity {
     Button done;
 
     String cityName;
-    String countryName;
 
     private ArrayList<Weather> days;
 
@@ -32,18 +31,11 @@ public class WeatherActivity extends AppCompatActivity {
 
         Bundle myBundle =  intent.getExtras();
         cityName = myBundle.getString("cityName");
-        countryName = myBundle.getString("countryName");
 
         locationName = (TextView) findViewById(R.id.locationName);
         list         = (ListView) findViewById(R.id.list);
         done         = (Button)   findViewById(R.id.done);
-
-        if (countryName.equals("")) {
-            locationName.setText(cityName);
-        }
-        else {
-            locationName.setText(cityName + ", " + countryName);
-        }
+        locationName.setText(cityName);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override

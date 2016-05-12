@@ -129,10 +129,9 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Choose only ONE item to view", Toast.LENGTH_SHORT).show();
         else {
             ContentValues values = new ContentValues();
-            values.put("City", temp.getCity().getCity());
-            values.put("Country", temp.getCity().getCountry());
+            values.put("City", temp.getLocation());
             values.put("Description", temp.getDescription());
-            Log.i("Insert Data", temp.getCity().getCity());
+            Log.i("Insert Data", temp.getLocation());
             sampleDB.insert(tableName_traveled, null, values);
             locations.remove(temp);
             adapter.notifyDataSetChanged();
@@ -212,14 +211,12 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
     private void createTable() {
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_traveled +
                 " (City VARCHAR, " +
-                "  Country VARCHAR, " +
                 "  Description VARCHAR);");
         Log.i("Created Table " + tableName_traveled, "Done");
 
         Log.d(getLocalClassName(), "in create table");
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableName_future +
                 " (City VARCHAR," +
-                "  Country VARCHAR," +
                 "  Description VARCHAR);");
         Log.i("Created Table " + tableName_future, "Done");
 
@@ -246,19 +243,16 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
 
     public void updateList(){
         Log.i("update", "list");
-        cursor = sampleDB.rawQuery("SELECT City, Country, Description FROM " + tableName_future, null);
+        cursor = sampleDB.rawQuery("SELECT City, Description FROM " + tableName_future, null);
         if(cursor != null) {
             Log.i("cursor Column", String.valueOf(cursor.getColumnCount()));
             Log.i("cursor", String.valueOf(cursor.getCount()));
             for(int i = 0; i < cursor.getCount(); i++){
                 cursor.moveToPosition(i);
                 String cityVal          = cursor.getString(cursor.getColumnIndex("City"));
-                String countryVal       = cursor.getString(cursor.getColumnIndex("Country"));
                 String description      = cursor.getString(cursor.getColumnIndex("Description"));
                 Log.i(cityVal, description);
-                City newCity            = new City(cityVal, countryVal);
-                Log.i("city val", countryVal);
-                Location newLocation    = new Location(newCity, description, null, null);
+                Location newLocation    = new Location(cityVal, description, null, null);
                 locations.add(newLocation);
             }
             Log.i("cursor", "not null");
@@ -279,11 +273,9 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
                 currentLocation         = newLocation;
 
                 String description      = newLocation.getDescription();
-                String cityName         = newLocation.getCity().getCity();
-                String countryN         = newLocation.getCity().getCountry();
+                String cityName         = newLocation.getLocation();
 
                 Log.i("City from add", cityName);
-                Log.i("Country from add", countryN);
                 Log.i("Description from add", description);
             }
             // Edit
@@ -294,12 +286,10 @@ public class FutureActivity extends AppCompatActivity implements View.OnClickLis
                 editLocation = (Location) myBundle.get("Edit");
                 Log.i("edit location", editLocation.toString());
                 String description      = editLocation.getDescription();
-                String cityName         = editLocation.getCity().getCity();
-                String countryN         = editLocation.getCity().getCountry();
+                String cityName         = editLocation.getLocation();
                 String dates            = editLocation.getDates();
 
                 Log.i("City from edit", cityName);
-                Log.i("Country from edit", countryN);
                 Log.i("Description from edit", description);
                 Log.i("Dates from edit", dates);
             }

@@ -46,6 +46,11 @@ public class EditTraveledActivity extends Activity  implements View.OnClickListe
         Location oldLocation = (Location) myBundle.get("oldLocation");
 
         picArray = oldLocation.getPictures();
+        if (picArray == null)
+            picArray = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            picArray.add("");
+        }
 
         cityText.setText(oldLocation.getLocation());
         descriptionT.setText(oldLocation.getDescription());

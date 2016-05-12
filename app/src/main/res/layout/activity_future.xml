@@ -10,29 +10,41 @@
     android:orientation="vertical"
     tools:context="com.minkim.traveldiary.FutureActivity">
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FUTURE"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:textColor="#000000"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\u25C1"
+            android:textColor="#262e75"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FUTURE"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="#262e75"/>
+    </LinearLayout>
+
 
     <ListView
+        android:background="@drawable/customborder1"
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="300dp"></ListView>
+        android:layout_height="300dp"
+        android:layout_marginBottom="10dp"></ListView>
 
     <Button
         android:id="@+id/move"
+        android:background="#2e3781"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:textColor="#9797b0"
         android:text="Move to traveled list"/>
 
     <LinearLayout
@@ -43,24 +55,36 @@
 
         <Button
             android:id="@+id/add"
+            android:layout_margin="1dp"
+            android:textColor="#9797b0"
+            android:background="#2e3781"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"/>
 
         <Button
             android:id="@+id/delete"
+            android:layout_margin="1dp"
+            android:textColor="#9797b0"
+            android:background="#2e3781"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"/>
 
         <Button
             android:id="@+id/edit"
+            android:layout_margin="1dp"
+            android:textColor="#9797b0"
+            android:background="#2e3781"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"/>
 
         <Button
             android:id="@+id/view"
+            android:layout_margin="1dp"
+            android:textColor="#9797b0"
+            android:background="#2e3781"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View"/>

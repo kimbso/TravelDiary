@@ -10,24 +10,37 @@
     android:orientation="vertical"
     tools:context="com.minkim.traveldiary.TraveledActivity">
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TRAVELED"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:textColor="#000000"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="\u25C1"
+            android:textColor="#262e75"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  TRAVELED"
+            android:textSize="30sp"
+            android:gravity="left"
+            android:textColor="#262e75"/>
+    </LinearLayout>
+
 
     <ListView
+        android:background="@drawable/customborder1"
         android:id="@+id/list"
+        android:layout_margin="2dp"
         android:layout_width="match_parent"
-        android:layout_height="345dp"></ListView>
+        android:layout_height="380dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#9797b0"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,25 +52,37 @@
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"/>
+            android:background="#2e3781"
+            android:layout_margin="2dp"
+            android:text="Add"
+            android:textColor="#9797b0" />
 
         <Button
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"/>
+            android:background="#2e3781"
+            android:layout_margin="2dp"
+            android:text="Del"
+            android:textColor="#9797b0" />
 
         <Button
             android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"/>
+            android:background="#2e3781"
+            android:layout_margin="2dp"
+            android:text="Edit"
+            android:textColor="#9797b0" />
 
         <Button
             android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View"/>
+            android:background="#2e3781"
+            android:layout_margin="2dp"
+            android:text="View"
+            android:textColor="#9797b0" />
     </LinearLayout>
 
 </LinearLayout>

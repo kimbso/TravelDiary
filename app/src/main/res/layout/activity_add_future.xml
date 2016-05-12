@@ -19,20 +19,22 @@
             android:id="@+id/cityText"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="#262e75"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:hint="City"/>
+            android:hint="City"
+            android:textColorHint="#9797b0" />
         <EditText
             android:id="@+id/countryText"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="#262e75"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:hint="Country"/>
+            android:hint="Country"
+            android:textColorHint="#9797b0" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description:"
-            android:textColor="#000000"/>
+            android:textColor="#262e75"/>
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
@@ -62,7 +64,8 @@
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Done"/>
+            android:text="Done"
+            android:textColor="#262e75" />
     </LinearLayout>
 
 </LinearLayout>

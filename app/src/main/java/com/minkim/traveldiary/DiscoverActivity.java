@@ -42,6 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DiscoverActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
@@ -147,6 +148,9 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         doClick();
         CityScrape cs = new CityScrape();
         cs.execute(searchName);
+
+        FlightScrape fs = new FlightScrape();
+        fs.execute();
     }
 
     public void weatherClick() {
@@ -286,6 +290,7 @@ public class DiscoverActivity extends AppCompatActivity implements View.OnClickL
         }
         return null;
     }
+    
     private class CityScrape extends AsyncTask<String, String, String> {
         private ProgressDialog progressDialog = new ProgressDialog(DiscoverActivity.this);
         StringBuilder result        = new StringBuilder();

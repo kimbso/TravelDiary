@@ -17,7 +17,7 @@
             android:id="@+id/locationText"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="#262e75"
+            android:textColor="#ff35812e"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
@@ -29,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:background="@drawable/customborderblue"
         android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/dates"
@@ -44,8 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/customborderblue"
-        android:layout_marginBottom="10dp">
+        android:background="@drawable/custombordergreen"
+        android:layout_marginBottom="20dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +54,7 @@
             android:id="@+id/description"
             android:textColor="#9797b0"
             android:layout_width="match_parent"
-            android:layout_height="175dp" />
+            android:layout_height="200dp" />
     </LinearLayout>
 
     <com.google.android.gms.maps.MapView
@@ -67,19 +66,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/customborderblue">
+        android:orientation="vertical">
         <Button
             android:id="@+id/pictures"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#262e75"
-            android:text="See Pictures"/>
+            android:text="See Pictures"
+            android:background="#9035812e" />
         <Button
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#262e75"
-            android:text="Done"/>
+            android:text="Done"
+            android:background="#cc35812e" />
     </LinearLayout>
 </LinearLayout>

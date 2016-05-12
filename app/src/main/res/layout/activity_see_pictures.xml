@@ -13,6 +13,7 @@
     <Button
         android:id="@+id/done"
         android:text="Done"
+        android:textColor="#262e75"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

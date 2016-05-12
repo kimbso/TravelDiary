@@ -13,6 +13,7 @@
     <Button
         android:id="@+id/done"
         android:text="Done"
+        android:textColor="#262e75"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -44,13 +45,18 @@
                     <Button
                         android:id="@+id/add1"
                         android:text="Add"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"
+                        android:layout_marginBottom="2dp"/>
                     <Button
                         android:id="@+id/del1"
                         android:text="Delete"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -72,13 +78,18 @@
                     <Button
                         android:id="@+id/add2"
                         android:text="Add"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8" />
                     <Button
                         android:id="@+id/del2"
                         android:text="Delete"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -100,13 +111,18 @@
                     <Button
                         android:id="@+id/add3"
                         android:text="Add"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8" />
                     <Button
                         android:id="@+id/del3"
                         android:text="Delete"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -128,13 +144,18 @@
                     <Button
                         android:id="@+id/add4"
                         android:text="Add"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"/>
                     <Button
                         android:id="@+id/del4"
                         android:text="Delete"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -156,13 +177,18 @@
                     <Button
                         android:id="@+id/add5"
                         android:text="Add"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"/>
                     <Button
                         android:id="@+id/del5"
                         android:text="Delete"
+                        android:textColor="#262e75"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="#d0d2e8"/>
                 </LinearLayout>
             </LinearLayout>
 

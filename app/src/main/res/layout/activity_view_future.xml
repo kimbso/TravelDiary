@@ -19,11 +19,11 @@
             android:id="@+id/locationText"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="#262e75"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:hint="City, Country"/>
+            android:hint="City"/>
     </LinearLayout>
 
     <LinearLayout
@@ -36,10 +36,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description:"
-            android:textColor="#000000"/>
+            android:textColor="#262e75"/>
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
+            android:textColor="#9797b0"
             android:layout_height="150dp" />
     </LinearLayout>
 
@@ -53,6 +54,7 @@
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#262e75"
             android:text="Done"/>
     </LinearLayout>
 

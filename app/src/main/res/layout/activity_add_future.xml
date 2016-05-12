@@ -19,25 +19,26 @@
             android:id="@+id/cityText"
             android:textSize="25sp"
             android:gravity="center"
-            android:textColor="#262e75"
+            android:textColor="#fddf9a1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
             android:hint="Somewhere You Want To Go..."
-            android:textColorHint="#9797b0" />
+            android:textColorHint="#fddf9a1b" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/customborderblue"
+        android:background="@drawable/customborderorange"
         android:layout_marginBottom="20dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description:"
-            android:textColor="#9797b0"/>
+            android:textColor="#262e75"
+            android:textSize="20dp" />
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
@@ -54,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Done"
-            android:textColor="#262e75" />
+            android:textColor="#262e75"
+            android:background="#dfdf9a1b" />
     </LinearLayout>
 
 </LinearLayout>
